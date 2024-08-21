@@ -10,9 +10,9 @@ else
         flavour = "mocha",
         show_end_of_buffer = true,
         transparent_background = transparency,
-        -- integrations = {
-        --     notify = true,
-        -- },
+        integrations = {
+            notify = true,
+        },
     })
     vim.cmd.colorscheme({args = {"catppuccin"}})
 end
