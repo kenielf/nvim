@@ -19,9 +19,23 @@ vim.opt.rtp:prepend(lazypath)
 local plugins = {
     --- UI ---
     -- Colorscheme
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
+        config = function() require("custom.ui.themes.catppuccin") end,
+    },
 
-    -- File Tree
+    -- UI Replacement
+    {
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        config = function() require("custom.ui.noice") end,
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "rcarriga/nvim-notify",
+        },
+    }
 }
 
 -- Load lazy plugin manager
@@ -29,3 +43,4 @@ require("lazy").setup({
     spec = plugins,
     checker = { enabled = true },
 })
+
