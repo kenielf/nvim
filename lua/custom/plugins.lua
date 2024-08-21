@@ -30,15 +30,31 @@ local plugins = {
     {
         "folke/noice.nvim",
         event = "VeryLazy",
-        config = function()
-            require("custom.ui.noice")
-            require("custom.ui.visual-markers")
-        end,
         dependencies = {
             "MunifTanjim/nui.nvim",
             "rcarriga/nvim-notify",
         },
-    }
+        config = function()
+            require("custom.ui.noice")
+            require("custom.ui.visual-markers")
+        end,
+    },
+    -- File Tree
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
+            "3rd/image.nvim",
+            {
+                "s1n7ax/nvim-window-picker",
+                require = function() require("custom.ui.window-picker") end
+            },
+        },
+        config = function() require("custom.ui.file-tree") end
+    },
 }
 
 -- Load lazy plugin manager

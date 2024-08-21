@@ -12,6 +12,8 @@ else
         transparent_background = transparency,
         integrations = {
             notify = true,
+            neotree = true,
+            window_picker = true,
         },
     })
     vim.cmd.colorscheme({args = {"catppuccin"}})
