@@ -30,7 +30,10 @@ local plugins = {
     {
         "folke/noice.nvim",
         event = "VeryLazy",
-        config = function() require("custom.ui.noice") end,
+        config = function()
+            require("custom.ui.noice")
+            require("custom.ui.visual-markers")
+        end,
         dependencies = {
             "MunifTanjim/nui.nvim",
             "rcarriga/nvim-notify",
