@@ -123,6 +123,14 @@ local plugins = {
         config = function() require("custom.highlighting.comments") end,
         dependencies = { "nvim-lua/plenary.nvim" },
     },
+
+    -- Indentation Markers
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        config = function() require("custom.ui.indentation") end
+    },
+
 }
 
 -- Load lazy plugin manager

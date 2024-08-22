@@ -17,7 +17,11 @@ else
             illuminate = {
                 enabled = true,
                 lsp = false
-            }
+            },
+            indent_blankline = {
+                enabled = true,
+                colored_indent_levels = false,
+            },
         },
     })
     vim.cmd.colorscheme({args = {"catppuccin"}})
