@@ -7,7 +7,7 @@ M.list_active_bufs = function()
     local active_buffers = {}
     for key, buffer in pairs(buffers) do
         local valid = vim.api.nvim_buf_is_valid(buffer)
-        local listed = vim.api.nvim.nvim_get_option_value('buflisted', {buf=buffer})
+        local listed = vim.api.nvim_get_option_value('buflisted', {buf=buffer})
         if valid and listed then
             table.insert(active_buffers, buffer)
         end
