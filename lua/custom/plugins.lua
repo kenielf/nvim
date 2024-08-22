@@ -81,6 +81,20 @@ local plugins = {
         config = function() require("custom.ui.dashboard") end,
         dependencies = { "nvim-tree/nvim-web-devicons" }
     },
+
+    -- Buffers
+    {
+        "akinsho/bufferline.nvim",
+        version = "*",
+        config = function() require("custom.ui.status.bufferline") end,
+        dependencies = 'nvim-tree/nvim-web-devicons',
+    },
+
+    {
+        "nvim-lualine/lualine.nvim",
+        config = function() require("custom.ui.status.lualine") end,
+        dependencies = { "nvim-tree/nvim-web-devicons" }
+    },
 }
 
 -- Load lazy plugin manager
