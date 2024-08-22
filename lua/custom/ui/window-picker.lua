@@ -7,3 +7,4 @@ require 'window-picker'.setup({
         },
     },
 })
+

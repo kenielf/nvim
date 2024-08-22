@@ -47,13 +47,39 @@ local plugins = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons",
             "MunifTanjim/nui.nvim",
-            "3rd/image.nvim",
             {
                 "s1n7ax/nvim-window-picker",
-                require = function() require("custom.ui.window-picker") end
+                config = function() require("custom.ui.window-picker") end
             },
         },
         config = function() require("custom.ui.file-tree") end
+    },
+
+    -- Image Previews
+    {
+        "3rd/image.nvim",
+        dependencies = {
+            "vhyrro/luarocks.nvim",
+            opts = { rocks = { "magick" }, },
+            priority = 1000,
+        },
+        config = function() require("custom.ui.images") end,
+    },
+
+    -- Keybinds
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        config = function() require("custom.keymaps.which-key") end,
+        desc = "Keybinds",
+    },
+
+    -- Dashboard
+    {
+        'nvimdev/dashboard-nvim',
+        event = 'VimEnter',
+        config = function() require("custom.ui.dashboard") end,
+        dependencies = { "nvim-tree/nvim-web-devicons" }
     },
 }
 
@@ -64,3 +90,4 @@ require("lazy").setup({
 })
 
 vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>", { desc = "Open Lazy", silent = true })
+
