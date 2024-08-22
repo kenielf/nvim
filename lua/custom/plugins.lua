@@ -137,6 +137,31 @@ local plugins = {
         config = function() require("custom.navigation.scrolling") end,
     },
 
+    -- Telescope
+    {
+        "nvim-telescope/telescope.nvim",
+        config = function() require("custom.navigation.telescope") end,
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope-project.nvim",
+            "benfowler/telescope-luasnip.nvim",
+        },
+    },
+
+    -- Flash
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("custom.navigation.flash")
+        end,
+    },
+
+    -- TreeSitterJoiner
+    {
+        "Wansmer/treesj",
+        config = function() require("custom.behavior.join") end
+    },
 }
 
 -- Load lazy plugin manager
