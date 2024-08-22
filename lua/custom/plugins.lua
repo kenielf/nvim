@@ -95,6 +95,34 @@ local plugins = {
         config = function() require("custom.ui.status.lualine") end,
         dependencies = { "nvim-tree/nvim-web-devicons" }
     },
+
+    --- Syntax Highlighting & Contextual Hints ---
+    {
+        "nvim-treesitter/nvim-treesitter",
+        run = function() vim.cmd [[:TSUpdate]] end,
+        config = function() require("custom.highlighting.syntax") end,
+        dependencies = "yioneko/nvim-yati"
+    },
+
+    -- Search
+    {
+        "kevinhwang91/nvim-hlslens",
+        config = function() require("custom.highlighting.search") end,
+        dependencies = "RRethy/vim-illuminate",
+    },
+
+    -- Colorizer
+    {
+        "NvChad/nvim-colorizer.lua",
+        config = function() require("custom.highlighting.colors") end,
+    },
+
+    -- Comments
+    {
+        "folke/todo-comments.nvim",
+        config = function() require("custom.highlighting.comments") end,
+        dependencies = { "nvim-lua/plenary.nvim" },
+    },
 }
 
 -- Load lazy plugin manager

@@ -14,6 +14,10 @@ else
             notify = true,
             neotree = true,
             window_picker = true,
+            illuminate = {
+                enabled = true,
+                lsp = false
+            }
         },
     })
     vim.cmd.colorscheme({args = {"catppuccin"}})
