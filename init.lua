@@ -9,6 +9,7 @@ require("custom.behavior.swap")
 require("custom.behavior.mouse")
 require("custom.behavior.clipboard")
 require("custom.behavior.indentation")
+require("custom.behavior.folding")
 
 -- Load quick keymaps
 require("custom.keymaps.quick-keys")
