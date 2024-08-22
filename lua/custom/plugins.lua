@@ -162,6 +162,30 @@ local plugins = {
         "Wansmer/treesj",
         config = function() require("custom.behavior.join") end
     },
+
+    -- Toggleterm
+    {
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        event = "VeryLazy",
+        config = function() require("custom.ui.terminal") end,
+    },
+
+    -- Comments
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        config = function() require("custom.behavior.comments") end,
+    },
+
+    -- Surround
+    {
+        "windwp/nvim-autopairs",
+        version = "*",
+        event = "VeryLazy",
+        config = function() require("custom.behavior.surround") end,
+        dependencies = { "kylechui/nvim-surround", version = "*" },
+    },
 }
 
 -- Load lazy plugin manager
