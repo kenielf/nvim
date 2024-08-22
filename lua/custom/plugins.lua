@@ -131,6 +131,12 @@ local plugins = {
         config = function() require("custom.ui.indentation") end
     },
 
+    -- Neoscroll
+    {
+        "karb94/neoscroll.nvim",
+        config = function() require("custom.navigation.scrolling") end,
+    },
+
 }
 
 -- Load lazy plugin manager
