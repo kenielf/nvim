@@ -96,6 +96,23 @@ local plugins = {
         dependencies = { "nvim-tree/nvim-web-devicons" }
     },
 
+    {
+        "utilyre/barbecue.nvim",
+        name = "barbecue",
+        version = "*",
+        config = function()
+            require("custom.ui.status.context")
+        end,
+        dependencies = {
+            "SmiteshP/nvim-navic",
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-treesitter/nvim-treesitter-context",
+            "nvim-tree/nvim-web-devicons", -- optional dependency
+        },
+    },
+
+
+
     --- Syntax Highlighting & Contextual Hints ---
     {
         "nvim-treesitter/nvim-treesitter",
@@ -185,6 +202,68 @@ local plugins = {
         event = "VeryLazy",
         config = function() require("custom.behavior.surround") end,
         dependencies = { "kylechui/nvim-surround", version = "*" },
+    },
+
+    -- LSP ---
+    {
+        "VonHeikemen/lsp-zero.nvim",
+        branch = 'v4.x',
+        dependencies = {
+            -- LSP Support
+            { 'neovim/nvim-lspconfig' },
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
+            { "jay-babu/mason-nvim-dap.nvim" },
+            { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
+
+            -- Autocompletion
+            { 'hrsh7th/nvim-cmp' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-path' },
+            { 'hrsh7th/cmp-cmdline' },
+            { 'saadparwaiz1/cmp_luasnip', version = "2.*", build = "make install_jsregexp", dependencies = { "rafamadriz/friendly-snippets" },
+ },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/cmp-nvim-lua' },
+            {
+                'windwp/nvim-autopairs',
+                event = "InsertEnter",
+            },
+
+            -- Formatter
+            { 'lukas-reineke/lsp-format.nvim' },
+
+            -- Snippets
+            { 'L3MON4D3/LuaSnip' },
+            { 'rafamadriz/friendly-snippets' },
+
+            -- Specific Language Tweaks
+            {
+                "mfussenegger/nvim-jdtls",
+                --lazy = false,
+                config = function()
+                    require("custom.lsp.languages.java")
+                end
+            },
+        },
+        config = function()
+            require("custom.lsp")
+        end,
+    },
+
+    -- Diagnostics
+    {
+        'folke/trouble.nvim',
+        config = function()
+            require('custom.lsp.trouble')
+        end,
+    },
+
+    -- Debugger
+    {
+        "rcarriga/nvim-dap-ui",
+        config = function() require("custom.lsp.dap") end,
+        dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
     },
 }
 

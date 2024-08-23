@@ -44,6 +44,7 @@ end
 require("nvim-treesitter.configs").setup({
     yati = { enable = true, default_lazy = true, },
     indent = false,
+    highlight = { enable = true, additional_vim_regex_highlight = false, },
     ensure_installed = languages,
     sync_install = false,
     auto_install = install,
