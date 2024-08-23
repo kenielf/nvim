@@ -265,6 +265,24 @@ local plugins = {
         config = function() require("custom.lsp.dap") end,
         dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
     },
+
+    -- Git stuff
+    -- Neogit
+    {
+        "NeogitOrg/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "sindrets/diffview.nvim",
+            "nvim-telescope/telescope.nvim"
+        },
+        config = function() require("custom.git.neogit") end,
+    },
+
+    -- Signs
+    {
+        "lewis6991/gitsigns.nvim",
+        config = function() require("custom.git.signs") end
+    },
 }
 
 -- Load lazy plugin manager
