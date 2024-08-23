@@ -19,3 +19,7 @@ require("noice").setup({
         },
     },
 })
+
+-- Notifications
+local notifications = require("notify")
+vim.keymap.set({"n", "v"}, "<leader>cn", function() notifications.dismiss() end, { desc = "Dismiss notifications" })

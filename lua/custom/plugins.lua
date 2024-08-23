@@ -39,6 +39,11 @@ local plugins = {
             require("custom.ui.visual-markers")
         end,
     },
+
+    {
+        "stevearc/dressing.nvim",
+        config = function() require("custom.ui.dressing") end,
+    },
     -- File Tree
     {
         "nvim-neo-tree/neo-tree.nvim",
@@ -264,6 +269,18 @@ local plugins = {
         "rcarriga/nvim-dap-ui",
         config = function() require("custom.lsp.dap") end,
         dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
+    },
+
+    --- Language Specific
+    -- Markdown
+    {
+        "OXY2DEV/markview.nvim",
+        lazy = false,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons"
+        },
+        config = function() require("custom.lsp.languages.markdown") end,
     },
 
     -- Git stuff
