@@ -21,7 +21,7 @@ local languages = {
 
     -- Programming languages and frameworks
     "arduino", "asm", "awk", "bash", "c", "c_sharp", "clojure", "commonlisp",
-    "cpp", "dart", "elixir", "erlang", "fortran", "gdscript", "gdshader",
+    "cpp", "dart", "elixir", "erlang", "fsh", "fortran", "gdscript", "gdshader",
     "go", "godot_resource", "haskell", "java", "javascript", "kotlin", "llvm",
     "lua", "luadoc", "nasm", "ocaml", "pascal", "perl", "php", "phpdoc",
     "powershell", "prolog", "python", "r", "ruby", "rust", "scala", "svelte",
