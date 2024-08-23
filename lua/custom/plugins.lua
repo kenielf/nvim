@@ -283,6 +283,21 @@ local plugins = {
         "lewis6991/gitsigns.nvim",
         config = function() require("custom.git.signs") end
     },
+
+    -- Extra
+    {
+        "kenielf/nvim-silicon", -- Using my fork instead of michaelrommel
+        event = "VeryLazy",
+        config = function() require("custom.extra.screenshots") end,
+    },
+
+    -- Discord
+    {
+        "vyfor/cord.nvim",
+        build = './build',
+        event = 'VeryLazy',
+        config = function() require("custom.extra.discord-integration") end
+    },
 }
 
 -- Load lazy plugin manager
