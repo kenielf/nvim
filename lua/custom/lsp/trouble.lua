@@ -1,5 +1,5 @@
 require("trouble").setup({
-    auto_close = true,
+    auto_close = false,
     focus = true,
     warn_no_results = false,
     open_no_results = true,
