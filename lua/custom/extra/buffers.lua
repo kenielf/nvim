@@ -5,7 +5,7 @@ local M = {}
 M.list_active_bufs = function()
     local buffers = vim.api.nvim_list_bufs()
     local active_buffers = {}
-    for key, buffer in pairs(buffers) do
+    for _, buffer in pairs(buffers) do
         local valid = vim.api.nvim_buf_is_valid(buffer)
         local listed = vim.api.nvim_get_option_value('buflisted', {buf=buffer})
         if valid and listed then
