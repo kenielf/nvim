@@ -1,9 +1,5 @@
-require("todo-comments").setup({
-    highlight = { before = true, }
-})
-
 local todo = require("todo-comments")
--- TODO: Improve this
-vim.keymap.set("n", "]t", function() todo.jump_next() end, { desc = "Next todo comment" })
+todo.setup( {highlight = { before = true } } )
 
-vim.keymap.set("n", "[t", function() todo.jump_prev() end, { desc = "Previous todo comment" })
+vim.keymap.set("n", "<leader><s-t>n", function() todo.jump_next() end, { desc = "Next todo comment" })
+vim.keymap.set("n", "<leader><s-t>p", function() todo.jump_prev() end, { desc = "Previous todo comment" })
