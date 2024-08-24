@@ -22,4 +22,3 @@ end
 require("image").setup({
     backend = backend,
 })
-

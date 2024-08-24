@@ -11,4 +11,3 @@ require("ibl").setup({
         filetypes = { "dashboard" },
     },
 })
-

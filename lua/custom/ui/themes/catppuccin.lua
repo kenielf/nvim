@@ -1,5 +1,5 @@
 if vim.g.tty then
-    vim.cmd.colorscheme({args = {"default"}})
+    vim.cmd.colorscheme({ args = { "default" } })
 else
     vim.opt.termguicolors = true
     local transparency = true
@@ -53,6 +53,5 @@ else
             telescope = { enabled = true, style = "nvchad", },
         },
     })
-    vim.cmd.colorscheme({args = {"catppuccin"}})
+    vim.cmd.colorscheme({ args = { "catppuccin" } })
 end
-

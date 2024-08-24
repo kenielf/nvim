@@ -1,12 +1,12 @@
 -- Context Line
--- local highlights = require("custom.extras.highlight-utils")
 require("barbecue").setup({
     theme = "catppuccin",
-     attach_navic = false,
+    attach_navic = false,
 })
 
 -- Context Block
-require("treesitter-context").setup({
+local tscontext = require("treesitter-context")
+tscontext.setup({
     enable = true,
     max_lines = 0,
     min_window_height = 0,
@@ -19,6 +19,5 @@ require("treesitter-context").setup({
     on_attach = nil,
 })
 
-vim.keymap.set("n", "[c", function()
-    require("treesitter-context").go_to_context(vim.v.count1)
-end, { silent = true, desc = "Jump to context" })
+vim.keymap.set("n", "<leader>gc", function() tscontext.go_to_context(vim.v.count1) end,
+    { silent = true, desc = "Jump to context" })
