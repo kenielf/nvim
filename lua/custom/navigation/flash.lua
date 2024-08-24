@@ -11,5 +11,5 @@ flash.setup({
     },
 })
 
-vim.keymap.set({ "n", "x", "o" }, "<leader>sf", function() flash.jump() end, {desc = "Flash", silent = true})
-vim.keymap.set({ "n", "x", "o" }, "<leader>st", function() flash.treesitter() end, {desc = "Flash Treesitter", silent = true})
+vim.keymap.set({ "n", "x", "o" }, "<leader>sf", flash.jump, { desc = "Flash", silent = true })
+vim.keymap.set({ "n", "x", "o" }, "<leader>st", flash.treesitter, { desc = "Flash Treesitter", silent = true })
