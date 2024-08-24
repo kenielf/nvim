@@ -8,5 +8,5 @@ signs.setup({
     }
 })
 
-vim.keymap.set({"n", "v"}, "<leader><s-g>B", function() signs.toggle_current_line_blame() end, { desc = "Toggle git blame", silent = true })
+vim.keymap.set({"n", "v"}, "<leader><s-g><s-b>", function() signs.toggle_current_line_blame() end, { desc = "Toggle git blame", silent = true })
 
