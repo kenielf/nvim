@@ -5,4 +5,3 @@ require("which-key").setup({
     show_help = false,
     keys = { scroll_up = "<c-k>", scroll_down = "<c-j>" },
 })
-

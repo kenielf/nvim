@@ -17,7 +17,6 @@ require("nvim-silicon").setup({
 })
 
 vim.keymap.set(
-    {"n", "v"}, "<leader>sc", function() require("nvim-silicon").shoot() end,
+    { "n", "v" }, "<leader>sc", function() require("nvim-silicon").shoot() end,
     { desc = "Take a screenshot of the code", silent = true }
 )
-
