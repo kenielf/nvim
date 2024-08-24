@@ -5,7 +5,7 @@ require("markview").setup({
 
     -- This is nice to have
     callbacks = {
-        on_enable = function (_, win)
+        on_enable = function(_, win)
             vim.wo[win].conceallevel = 2;
             vim.wo[win].concealcursor = "c";
         end

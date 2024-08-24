@@ -32,6 +32,4 @@ require("trouble").setup({
     },
 })
 
-vim.keymap.set(
-    "n", "<leader>t", "<CMD>Trouble diagnostics toggle<CR>"
-)
+vim.keymap.set("n", "<leader>t", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Toggle diagnostics", silent = true })
