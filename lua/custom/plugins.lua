@@ -23,7 +23,7 @@ local plugins = {
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
-        config = function() require("custom.ui.themes.catppuccin") end,
+        config = function() require("custom.ui.theme") end,
     },
 
     -- Rework: UI Replacement
