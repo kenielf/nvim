@@ -7,6 +7,7 @@ The following packages should be installed for a better experience!
  - `ueberzug`: For image previews outside of kitty
  - `nodejs`: For `npm` packages
  - `image-magick`: For rendering images inside the terminal
+ - `ripgrep`: Searching really fast
 
 ### Cloning
 Clone the repository to your configuration directory
