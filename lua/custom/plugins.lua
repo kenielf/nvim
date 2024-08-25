@@ -121,6 +121,12 @@ local plugins = {
         },
     },
 
+    -- Status: LSP
+    {
+        "j-hui/fidget.nvim",
+        config = function() require("custom.ui.status.fidget") end,
+    },
+
     --- Behavior --
     -- TreeSitterJoiner
     {

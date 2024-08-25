@@ -46,6 +46,8 @@ else
             which_key = true,
             mason = true,
             notify = true,
+            noice = true,
+            fidget = true,
             neotree = true,
             window_picker = true,
             illuminate = { enabled = true, lsp = false },
