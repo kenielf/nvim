@@ -305,7 +305,7 @@ local plugins = {
     --- Extra ---
     -- Screenshots
     {
-        "kenielf/nvim-silicon", -- Using my fork instead of michaelrommel
+        "kenielf/silicon.nvim",
         event = "VeryLazy",
         config = function() require("custom.extra.screenshots") end,
     },
