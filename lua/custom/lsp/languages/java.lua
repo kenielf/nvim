@@ -12,7 +12,7 @@ local root_files = {
 }
 
 -- Jdtls features
-local features = { codelens = true, debugger = true, }
+local features = { codelens = true, debugger = false, }
 
 -- Register jdtls
 local function get_jdtls_paths()
