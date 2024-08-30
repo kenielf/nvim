@@ -245,7 +245,10 @@ local plugins = {
                 "saadparwaiz1/cmp_luasnip",
                 version = "2.*",
                 build = "make install_jsregexp",
-                dependencies = "rafamadriz/friendly-snippets",
+                dependencies = {
+                    "rafamadriz/friendly-snippets",
+                    "chrisgrieser/nvim-scissors",
+                },
             },
             { "hrsh7th/cmp-nvim-lsp" },
             { "hrsh7th/cmp-nvim-lua" },

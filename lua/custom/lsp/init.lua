@@ -87,7 +87,17 @@ local cmp_action = require("lsp-zero").cmp_action()
 local cmp_format = lsp_zero.cmp_format()
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
-require("luasnip.loaders.from_vscode").lazy_load()
+local snippets = "~/.config/nvim/snippets"
+
+local scissors = require("scissors")
+scissors.setup({ snippetDir = snippets })
+require("luasnip.loaders.from_vscode").lazy_load({ paths = { snippets, } })
+
+vim.keymap.set("n", "<leader>se", require("scissors").editSnippet, { desc = "Edit snippet", silent = true })
+
+-- when used in visual mode, prefills the selection as snippet body
+vim.keymap.set({ "n", "x" }, "<leader>sa", scissors.addNewSnippet, { desc = "Add new snippet", silent = true })
+
 
 cmp.setup({
     sources = {
