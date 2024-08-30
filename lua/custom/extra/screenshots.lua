@@ -16,7 +16,7 @@ local options = {
 }
 
 local silicon = require("silicon")
-silicon.setup({ options })
+silicon.setup(options)
 
 vim.keymap.set(
     "v", "<leader>sc", silicon.screenshot,
