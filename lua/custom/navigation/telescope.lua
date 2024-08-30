@@ -3,7 +3,7 @@ local telescope = require("telescope")
 -- Projects
 local project_dirs = {}
 local add_dir_if_exists = function(file)
-    if not vim.fn.isdirectory(file) then
+    if vim.fn.isdirectory(file) then
         table.insert(project_dirs, file)
     end
 end
