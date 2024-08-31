@@ -91,7 +91,8 @@ local snippets = "~/.config/nvim/snippets"
 
 local scissors = require("scissors")
 scissors.setup({ snippetDir = snippets })
-require("luasnip.loaders.from_vscode").lazy_load({ paths = { snippets, } })
+require("luasnip.loaders.from_vscode").lazy_load()                          -- load defaults
+require("luasnip.loaders.from_vscode").lazy_load({ paths = { snippets, } }) -- load custom
 
 vim.keymap.set("n", "<leader>se", require("scissors").editSnippet, { desc = "Edit snippet", silent = true })
 

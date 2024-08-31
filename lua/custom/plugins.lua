@@ -285,7 +285,7 @@ local plugins = {
     -- Extra Languages: Markdown
     {
         "OXY2DEV/markview.nvim",
-        event = "VeryLazy",
+        lazy = false,
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons"
