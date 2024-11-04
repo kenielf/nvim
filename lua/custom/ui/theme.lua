@@ -59,4 +59,24 @@ else
         integrations = integrations,
     })
     vim.cmd.colorscheme({ args = { "catppuccin" } })
+
+    -- local iterate_colorschemes = function()
+    --     local colorschemes = vim.fn.getcompletion('', 'color')
+    --     local index = 1
+    --
+    --     local function apply_colorscheme()
+    --         if index < #colorschemes then
+    --             local colorscheme = colorschemes[index]
+    --             vim.notify("Colorscheme: " .. colorscheme)
+    --             vim.cmd("colorscheme " .. colorscheme)
+    --
+    --             index = index + 1
+    --             vim.defer_fn(apply_colorscheme, 2000)
+    --         end
+    --     end
+    --
+    --     apply_colorscheme()
+    -- end
+    --
+    -- vim.keymap.set("n", "<leader>cL", iterate_colorschemes, { desc = "Iterate through colorschemes" })
 end
