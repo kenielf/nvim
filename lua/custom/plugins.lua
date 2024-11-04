@@ -70,16 +70,17 @@ local plugins = {
     },
 
     -- Utils: Image Previews
-    {
-        "3rd/image.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "vhyrro/luarocks.nvim",
-            opts = { rocks = { "magick" }, },
-            priority = 1000,
-        },
-        config = function() require("custom.ui.utils.images") end,
-    },
+    -- NOTE: Temporarily disabled
+    -- {
+    --     "3rd/image.nvim",
+    --     event = "VeryLazy",
+    --     dependencies = {
+    --         "vhyrro/luarocks.nvim",
+    --         opts = { rocks = { "magick" }, },
+    --         priority = 1000,
+    --     },
+    --     config = function() require("custom.ui.utils.images") end,
+    -- },
 
     -- Utils: Dashboard
     {
