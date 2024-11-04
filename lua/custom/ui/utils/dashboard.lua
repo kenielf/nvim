@@ -31,6 +31,12 @@ local logo = {
     "",
 }
 
+local vimrc = os.getenv("MYVIMRC")
+local parent_directory = vim.fn.fnameescape(vim.fn.fnamemodify(
+    vimrc or vim.fn.expand("$HOME/.config/nvim/init.lua"), ':p:h'
+))
+local cfg_command = "e! ++p +cd\\ " .. parent_directory.. " " .. vimrc
+
 require("dashboard").setup({
     theme = "doom",
     config = {
@@ -41,7 +47,7 @@ require("dashboard").setup({
             create_option("t", "󱎸 ", "Find Text", "Telescope live_grep"),
             create_option("p", " ", "Projects", "Telescope project"),
             create_option("r", " ", "Recent Files", "Telescope oldfiles"),
-            create_option("c", " ", "Configuration", "cd ~/.config/nvim | e! init.lua"),
+            create_option("c", " ", "Configuration", cfg_command),
             create_option("q", " ", "Quit", "quit"),
         },
     }
