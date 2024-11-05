@@ -1,6 +1,8 @@
 local mocha = require("catppuccin.palettes").get_palette("mocha")
 local flavour = require("catppuccin").flavour
 
+-- if flavour == nil then return end
+
 local options = {
     font = "Iosevka Term=24;Noto Color Emoji=24",
     theme = "Catppuccin-" .. flavour,

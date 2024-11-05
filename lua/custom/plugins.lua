@@ -70,17 +70,11 @@ local plugins = {
     },
 
     -- Utils: Image Previews
-    -- NOTE: Temporarily disabled
-    -- {
-    --     "3rd/image.nvim",
-    --     event = "VeryLazy",
-    --     dependencies = {
-    --         "vhyrro/luarocks.nvim",
-    --         opts = { rocks = { "magick" }, },
-    --         priority = 1000,
-    --     },
-    --     config = function() require("custom.ui.utils.images") end,
-    -- },
+    {
+        "3rd/image.nvim",
+        event = "VeryLazy",
+        config = function() require("custom.ui.utils.images") end,
+    },
 
     -- Utils: Dashboard
     {
@@ -356,6 +350,19 @@ local plugins = {
     { "dstein64/vim-startuptime", },
 }
 
+-- Environment dependent plugins
+local display = os.getenv("DISPLAY")
+if display ~= nil then
+    vim.list_extend(plugins, {
+        -- Utils: Image Previews
+        {
+            "3rd/image.nvim",
+            event = "VeryLazy",
+            config = function() require("custom.ui.utils.images") end,
+        },
+    })
+end
+
 -- Load lazy plugin manager
 local disabled_plugins = {
     -- NetRW
@@ -386,6 +393,7 @@ require("lazy").setup({
     spec = plugins,
     checker = { enabled = true, frequency = 259200 }, -- Three days
     defaults = { lazy = true, },
+    rocks = { hererocks = true },
     performance = { rtp = { disabled_plugins = disabled_plugins, }, },
 })
 
