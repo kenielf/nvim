@@ -70,11 +70,11 @@ local plugins = {
     },
 
     -- Utils: Image Previews
-    {
-        "3rd/image.nvim",
-        event = "VeryLazy",
-        config = function() require("custom.ui.utils.images") end,
-    },
+    -- {
+    --     "3rd/image.nvim",
+    --     event = "VeryLazy",
+    --     config = function() require("custom.ui.utils.images") end,
+    -- },
 
     -- Utils: Dashboard
     {
@@ -96,7 +96,8 @@ local plugins = {
     {
         "akinsho/bufferline.nvim",
         version = "*",
-        lazy = false,
+        lazy = true,
+        event = "VeryLazy",
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function() require("custom.ui.status.bufferline") end,
     },
@@ -324,10 +325,16 @@ local plugins = {
 
     --- Extra ---
     -- Screenshots
+    -- {
+    --     "kenielf/silicon.nvim",
+    --     branch = "testing",
+    --     event = "VeryLazy",
+    --     config = function() require("custom.extra.screenshots.silicon") end,
+    -- },
     {
-        "kenielf/silicon.nvim",
+        "michaelrommel/silicon.nvim",
         event = "VeryLazy",
-        config = function() require("custom.extra.screenshots") end,
+        config = function() require("custom.extra.screenshots.nvim-silicon") end
     },
 
     -- Discord
@@ -355,11 +362,12 @@ local display = os.getenv("DISPLAY")
 if display ~= nil then
     vim.list_extend(plugins, {
         -- Utils: Image Previews
-        {
-            "3rd/image.nvim",
-            event = "VeryLazy",
-            config = function() require("custom.ui.utils.images") end,
-        },
+        -- {
+        --     "3rd/image.nvim",
+        --     event = "VeryLazy",
+        --     rocks = "magick",
+        --     config = function() require("custom.ui.utils.images") end,
+        -- },
     })
 end
 
