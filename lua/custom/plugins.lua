@@ -332,7 +332,7 @@ local plugins = {
     --     config = function() require("custom.extra.screenshots.silicon") end,
     -- },
     {
-        "michaelrommel/silicon.nvim",
+        "michaelrommel/nvim-silicon",
         event = "VeryLazy",
         config = function() require("custom.extra.screenshots.nvim-silicon") end
     },
