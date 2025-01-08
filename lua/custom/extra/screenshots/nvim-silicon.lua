@@ -3,8 +3,8 @@ local flavour = require("catppuccin").flavour:gsub("^%l", string.upper)
 
 local silicon = require("nvim-silicon")
 silicon.setup({
-    font = "Iosevka NF=24;Iosevka Term=24;Noto Color Emoji=24",
-    theme = "Catppuccin" .. flavour,
+    font = "Iosevka NF=24;Noto Color Emoji=24",
+    theme = "Catppuccin " .. flavour,
     background = mocha.base,
     pad_horiz = 40,
     pad_vert = 40,
