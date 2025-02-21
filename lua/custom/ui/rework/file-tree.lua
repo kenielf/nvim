@@ -11,15 +11,12 @@ require("neo-tree").setup({
     },
     name = { trailing_slash = true, },
     window = { position = "right", width = 40 },
-    filesystem = { follow_current_file = { enabled = true }, },
+    filesystem = {
+        follow_current_file = { enabled = true },
+        group_empty_dirs = true,
+    },
     use_libuv_file_watcher = true,
     renderer = {
-        group_empty = true,
-        root_folder_label = false,
-        highlight_git = false,
-        highlight_opened_files = "none",
-        add_trailing = true,
-
         indent_markers = {
             enable = true,
         },
