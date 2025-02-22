@@ -96,8 +96,7 @@ local plugins = {
     {
         "akinsho/bufferline.nvim",
         version = "*",
-        lazy = true,
-        event = "VeryLazy",
+        lazy = false,
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function() require("custom.ui.status.bufferline") end,
     },
