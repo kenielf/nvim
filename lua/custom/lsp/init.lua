@@ -22,6 +22,14 @@ local lsp_attach = function(client, bufnr)
     if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
     end
+
+    -- -- Filetype tweaks
+    -- local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+    -- if filetype == "c" then
+    --     client.config.cmd = { "clangd", "--fallbackArgs='-std=c17'" }
+    -- elseif filetype == "cpp" then
+    --     client.config.cmd = { "clangd", "-stdlib=libc++", "-std=c++20'" }
+    -- end
 end
 
 lsp_zero.extend_lspconfig({
@@ -33,13 +41,14 @@ lsp_zero.extend_lspconfig({
 -- Mason
 local servers = {
     "dockerls", "docker_compose_language_service",
-    "tsserver", "html", "cssls", "cssmodules_ls", "jsonls",
+    "html", "cssls", "cssmodules_ls", "jsonls",
     "gopls",
     "texlab",
     "marksman",
     "jsonls",
     "lua_ls",
     "bashls",
+    -- "pyright",
     "pyright",
     "rust_analyzer",
     "clangd",
@@ -48,7 +57,10 @@ local servers = {
 }
 
 local tools = {
-    "black", "isort", "flake8"
+    "black", "isort", "flake8",
+    "clang-format",
+    -- "ruff",
+    "prettier",
 }
 
 local lspconfig = require("lspconfig")
@@ -62,6 +74,20 @@ require("mason-lspconfig").setup({
             local lua_opts = lsp_zero.nvim_lua_ls()
             lspconfig.lua_ls.setup(lua_opts)
         end,
+        -- clangd = function(bufnr)
+        --     lspconfig["clangd"].setup({
+        --         init_options = {
+        --             usePlaceholders = true,
+        --             completeUnimported = true,
+        --             clangdFileStatus = true,
+        --             -- fallbackArgs = {
+        --             --     -- "-std=c17",
+        --             --     -- "--stdlib=libc++",
+        --             --     "-std=c++20"
+        --             -- }
+        --         },
+        --     })
+        -- end
     }
 })
 
@@ -87,7 +113,21 @@ local cmp_action = require("lsp-zero").cmp_action()
 local cmp_format = lsp_zero.cmp_format()
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
-require("luasnip.loaders.from_vscode").lazy_load()
+local snippets = "~/.config/nvim/snippets"
+
+local scissors = require("scissors")
+scissors.setup({ snippetDir = snippets })
+local luasnip = require("luasnip")
+luasnip.filetype_extend("javascript", { "html" })
+luasnip.filetype_extend("php", { "html" })
+require("luasnip.loaders.from_vscode").lazy_load()                          -- load defaults
+require("luasnip.loaders.from_vscode").lazy_load({ paths = { snippets, } }) -- load custom
+
+vim.keymap.set("n", "<leader>se", require("scissors").editSnippet, { desc = "Edit snippet", silent = true })
+
+-- when used in visual mode, prefills the selection as snippet body
+vim.keymap.set({ "n", "x" }, "<leader>sa", scissors.addNewSnippet, { desc = "Add new snippet", silent = true })
+
 
 cmp.setup({
     sources = {

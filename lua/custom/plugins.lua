@@ -22,6 +22,7 @@ local plugins = {
     {
         "catppuccin/nvim",
         name = "catppuccin",
+        lazy = false,
         priority = 1000,
         config = function() require("custom.ui.theme") end,
     },
@@ -39,6 +40,7 @@ local plugins = {
 
     {
         "stevearc/dressing.nvim",
+        event = "VeryLazy",
         config = function() require("custom.ui.rework.dressing") end,
     },
 
@@ -46,6 +48,7 @@ local plugins = {
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
+        lazy = false,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons",
@@ -62,26 +65,23 @@ local plugins = {
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
+        event = "VeryLazy",
         config = function() require("custom.ui.rework.indentation") end
     },
 
     -- Utils: Image Previews
-    {
-        "3rd/image.nvim",
-        dependencies = {
-            "vhyrro/luarocks.nvim",
-            opts = { rocks = { "magick" }, },
-            priority = 1000,
-        },
-        config = function() require("custom.ui.utils.images") end,
-    },
+    -- {
+    --     "3rd/image.nvim",
+    --     event = "VeryLazy",
+    --     config = function() require("custom.ui.utils.images") end,
+    -- },
 
     -- Utils: Dashboard
     {
         "nvimdev/dashboard-nvim",
         event = "VimEnter",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function() require("custom.ui.utils.dashboard") end,
-        dependencies = { "nvim-tree/nvim-web-devicons" }
     },
 
     -- Utils: Terminal
@@ -96,34 +96,38 @@ local plugins = {
     {
         "akinsho/bufferline.nvim",
         version = "*",
-        config = function() require("custom.ui.status.bufferline") end,
+        lazy = false,
         dependencies = "nvim-tree/nvim-web-devicons",
+        config = function() require("custom.ui.status.bufferline") end,
     },
 
     -- Status: Info Line
     {
         "nvim-lualine/lualine.nvim",
+        lazy = false,
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function() require("custom.ui.status.lualine") end,
-        dependencies = { "nvim-tree/nvim-web-devicons" }
     },
 
     -- Status: Context
     {
         "utilyre/barbecue.nvim",
         name = "barbecue",
+        event = "LspAttach",
         version = "*",
-        config = function() require("custom.ui.status.context") end,
         dependencies = {
             "SmiteshP/nvim-navic",
             "nvim-treesitter/nvim-treesitter",
             "nvim-treesitter/nvim-treesitter-context",
             "nvim-tree/nvim-web-devicons",
         },
+        config = function() require("custom.ui.status.context") end,
     },
 
     -- Status: LSP
     {
         "j-hui/fidget.nvim",
+        event = "VeryLazy",
         config = function() require("custom.ui.status.fidget") end,
     },
 
@@ -131,6 +135,7 @@ local plugins = {
     -- TreeSitterJoiner
     {
         "Wansmer/treesj",
+        event = "VeryLazy",
         config = function() require("custom.behavior.join") end
     },
 
@@ -146,14 +151,15 @@ local plugins = {
         "windwp/nvim-autopairs",
         version = "*",
         event = "VeryLazy",
-        config = function() require("custom.behavior.surround") end,
         dependencies = { "kylechui/nvim-surround", version = "*" },
+        config = function() require("custom.behavior.surround") end,
     },
 
     --- Git ---
     -- Neogit
     {
         "NeogitOrg/neogit",
+        event = "VeryLazy",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "sindrets/diffview.nvim",
@@ -165,6 +171,7 @@ local plugins = {
     -- Signs
     {
         "lewis6991/gitsigns.nvim",
+        event = "VeryLazy",
         config = function() require("custom.git.signs") end
     },
 
@@ -172,29 +179,33 @@ local plugins = {
     -- Syntax Highlighting
     {
         "nvim-treesitter/nvim-treesitter",
+        lazy = false,
         run = function() vim.cmd [[:TSUpdate]] end,
+        dependencies = "yioneko/nvim-yati",
         config = function() require("custom.highlighting.syntax") end,
-        dependencies = "yioneko/nvim-yati"
     },
 
     -- Search
     {
         "kevinhwang91/nvim-hlslens",
+        event = "VeryLazy",
+        dependencies = { "RRethy/vim-illuminate", event = "VeryLazy", },
         config = function() require("custom.highlighting.search") end,
-        dependencies = "RRethy/vim-illuminate",
     },
 
     -- Colorizer
     {
         "NvChad/nvim-colorizer.lua",
+        event = "VeryLazy",
         config = function() require("custom.highlighting.colors") end,
     },
 
     -- Comments
     {
         "folke/todo-comments.nvim",
-        config = function() require("custom.highlighting.comments") end,
+        event = "VeryLazy",
         dependencies = { "nvim-lua/plenary.nvim" },
+        config = function() require("custom.highlighting.comments") end,
     },
 
     --- Keymaps ---
@@ -202,8 +213,8 @@ local plugins = {
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
-        config = function() require("custom.keymaps.which-key") end,
         desc = "Keybinds",
+        config = function() require("custom.keymaps.which-key") end,
     },
 
     --- Lsp ---
@@ -211,6 +222,7 @@ local plugins = {
     {
         "VonHeikemen/lsp-zero.nvim",
         branch = "v4.x",
+        lazy = false,
         dependencies = {
             -- LSP Support
             { "neovim/nvim-lspconfig" },
@@ -228,7 +240,10 @@ local plugins = {
                 "saadparwaiz1/cmp_luasnip",
                 version = "2.*",
                 build = "make install_jsregexp",
-                dependencies = "rafamadriz/friendly-snippets",
+                dependencies = {
+                    "rafamadriz/friendly-snippets",
+                    "chrisgrieser/nvim-scissors",
+                },
             },
             { "hrsh7th/cmp-nvim-lsp" },
             { "hrsh7th/cmp-nvim-lua" },
@@ -250,14 +265,16 @@ local plugins = {
     -- Diagnostics
     {
         "folke/trouble.nvim",
+        event = "LspAttach",
         config = function() require("custom.lsp.trouble") end,
     },
 
     -- Debugger
     {
         "rcarriga/nvim-dap-ui",
+        event = "LspAttach",
+        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
         config = function() require("custom.lsp.dap") end,
-        dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" }
     },
 
     -- Extra Languages: Markdown
@@ -274,6 +291,7 @@ local plugins = {
     -- Extra Languages: Java
     {
         "mfussenegger/nvim-jdtls",
+        event = "VeryLazy",
         config = function() require("custom.lsp.languages.java") end
     },
 
@@ -281,18 +299,20 @@ local plugins = {
     -- Neoscroll
     {
         "karb94/neoscroll.nvim",
+        event = "VeryLazy",
         config = function() require("custom.navigation.scrolling") end,
     },
 
     -- Telescope
     {
         "nvim-telescope/telescope.nvim",
-        config = function() require("custom.navigation.telescope") end,
+        lazy = false,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope-project.nvim",
             "benfowler/telescope-luasnip.nvim",
         },
+        config = function() require("custom.navigation.telescope") end,
     },
 
     -- Flash
@@ -304,10 +324,16 @@ local plugins = {
 
     --- Extra ---
     -- Screenshots
+    -- {
+    --     "kenielf/silicon.nvim",
+    --     branch = "testing",
+    --     event = "VeryLazy",
+    --     config = function() require("custom.extra.screenshots.silicon") end,
+    -- },
     {
-        "kenielf/nvim-silicon", -- Using my fork instead of michaelrommel
+        "michaelrommel/nvim-silicon",
         event = "VeryLazy",
-        config = function() require("custom.extra.screenshots") end,
+        config = function() require("custom.extra.screenshots.nvim-silicon") end
     },
 
     -- Discord
@@ -315,14 +341,67 @@ local plugins = {
         "vyfor/cord.nvim",
         build = "./build",
         event = "VeryLazy",
-        config = function() require("custom.extra.discord-integration") end
+        config = function() require("custom.extra.discord-integration") end,
     },
+
+    -- Hardtime
+    {
+        "m4xshen/hardtime.nvim",
+        event = "VeryLazy",
+        dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+        config = function() require("custom.extra.hardtime") end,
+    },
+
+    -- Startup Time
+    { "dstein64/vim-startuptime", },
 }
 
+-- Environment dependent plugins
+local display = os.getenv("DISPLAY")
+if display ~= nil then
+    vim.list_extend(plugins, {
+        -- Utils: Image Previews
+        -- {
+        --     "3rd/image.nvim",
+        --     event = "VeryLazy",
+        --     rocks = "magick",
+        --     config = function() require("custom.ui.utils.images") end,
+        -- },
+    })
+end
+
 -- Load lazy plugin manager
+local disabled_plugins = {
+    -- NetRW
+    "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers",
+
+    -- Html
+    "2html_plugin", "tohtml",
+
+    -- Scripting
+    "getscript",
+    "getscriptPlugin",
+
+    -- Tar
+    "tar", "tarPlugin",
+
+    -- Vimball
+    "vimball", "vimballPlugin",
+
+    -- Zip
+    "zip", "zipPlugin", "gzip",
+
+    -- Vim
+    "tutor", "rplugin", "syntax", "synmenu", "optwin", "compiler",
+    "bugreport", "ftplugin",
+}
+
 require("lazy").setup({
     spec = plugins,
-    checker = { enabled = true },
+    checker = { enabled = true, frequency = 259200 }, -- Three days
+    defaults = { lazy = true, },
+    rocks = { hererocks = true },
+    performance = { rtp = { disabled_plugins = disabled_plugins, }, },
 })
 
 vim.keymap.set("n", "<leader>pl", "<cmd>Lazy<cr>", { desc = "Open Lazy", silent = true })

@@ -28,4 +28,9 @@ require("noice").setup({
 
 -- Notifications
 local notifications = require("notify")
+notifications.setup({
+    fps = 60,
+    top_down = false,
+    stages = "fade"
+})
 vim.keymap.set({ "n", "v" }, "<leader>cn", notifications.dismiss, { desc = "Dismiss notifications" })
