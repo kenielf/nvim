@@ -339,7 +339,7 @@ local plugins = {
     -- Discord
     {
         "vyfor/cord.nvim",
-        build = "./build",
+        build = ":Cord update",
         event = "VeryLazy",
         config = function() require("custom.extra.discord-integration") end,
     },
