@@ -70,6 +70,13 @@ require("neo-tree").setup({
             resize_window = true,
         },
     },
+    event_handlers = {
+        -- Show line numbers
+        {
+            event = "neo_tree_buffer_enter",
+            handler = function(_) vim.opt.relativenumber = true end
+        }
+    },
 })
 
 vim.keymap.set("n", "<a-1>", "<cmd>Neotree toggle filesystem<cr>", { desc = "Toggle File Tree", silent = true })
