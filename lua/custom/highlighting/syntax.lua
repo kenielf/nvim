@@ -9,7 +9,7 @@ local syntaxes = {
 
     -- Markup languages and configuration files
     "comment", "css", "dockerfile", "doxygen", "helm", "html", "htmldjango",
-    "ini", "markdown", "markdown_inline", "nginx", "nix", "org", "passwd",
+    "ini", "markdown", "markdown_inline", "nginx", "nix", "passwd",
     "rasi", "requirements", "rst", "ssh_config", "sxhkdrc", "terraform",
     "tmux", "toml", "udev", "yaml", "zathurarc",
 
