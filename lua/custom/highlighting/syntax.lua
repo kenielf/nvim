@@ -42,10 +42,10 @@ if vim.fn.exepath("treesitter") ~= nil then
     -- Add cli dependent syntaxes
     local extended_syntaxes = {
         -- Markup languages and configuration files
-        "latex",
+        -- "latex",
 
         -- Programming languages and frameworks
-        "swift",
+        -- "swift",
     }
 
     -- Extend original syntax table
