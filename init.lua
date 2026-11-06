@@ -1,19 +1,21 @@
--- Enable experimental module loader
+-- Enable the bytecode module loader
 vim.loader.enable()
 
--- Load UI Modes
-require("custom.modes")
+-- Core (no plugins involved)
+require("custom.options")
+require("custom.autocmds")
+require("custom.keymaps")
 
--- Load basic behaviour
-require("custom.behavior.swap")
-require("custom.behavior.mouse")
-require("custom.behavior.clipboard")
-require("custom.behavior.indentation")
-require("custom.behavior.folding")
-require("custom.ui.rework.visual-markers")
+-- Plugins (see lua/custom/pack.lua for how they are loaded)
+require("custom.pack").setup({
+    require("custom.plugins.ui"),
+    require("custom.plugins.editor"),
+    require("custom.plugins.coding"),
+    require("custom.plugins.git"),
+    require("custom.plugins.debug"),
+    require("custom.plugins.extra"),
+})
 
--- Load quick keymaps
-require("custom.keymaps.quick-keys")
-
--- Load plugin manager
-require("custom.plugins")
+-- Features built on top of the above
+require("custom.silicon").setup()
+require("custom.tools").setup()
