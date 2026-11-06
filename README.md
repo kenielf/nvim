@@ -25,7 +25,6 @@ Each language's tools are only installed once its toolchain exists. Installing t
 | C# | .NET SDK (`dotnet`) | |
 | Java | JDK 21+ (`java`), `python3` | |
 | Python | `python3` | |
-| Fish | `fish` | |
 | Perl | `perl`, `npm` | `perltidy` (formatting), `perlcritic` (linting), `PadWalker` module (debugging) |
 | Rust | `cargo` | `clippy`, `rustfmt` |
 | JavaScript / web | `node`, `npm` | |
@@ -43,7 +42,6 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 | Java | jdtls (nvim-jdtls) | jdtls | java-debug |
 | Python | basedpyright, ruff | ruff | debugpy |
 | Bash, sh, zsh, ksh | bash-language-server, shellcheck | shfmt | bash-debug-adapter |
-| Fish | fish-lsp | | |
 | Perl | perlnavigator | perltidy | perl-debug-adapter |
 | Rust | rust-analyzer | rustfmt | codelldb |
 | JS, TS, web | vtsls, eslint, html, css, json, tailwind, emmet | prettierd | js-debug-adapter |

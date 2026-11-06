@@ -48,13 +48,6 @@ return {
         formatters = { sh = { "shfmt" }, bash = { "shfmt" }, ksh = { "shfmt" } },
     },
     {
-        name = "Fish",
-        requires = { "fish" },
-        servers = { "fish_lsp" },
-        tools = { "fish-lsp" },
-        parsers = { "fish" },
-    },
-    {
         name = "Perl",
         requires = { "perl" },
         servers = { "perlnavigator" },

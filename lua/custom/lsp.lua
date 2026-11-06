@@ -82,8 +82,8 @@ function M.setup()
         callback = on_attach,
     })
 
-    -- A server can exist without what it runs on (fish-lsp without fish, roslyn without
-    -- .NET) and would error on every buffer, so those languages stay off until it's there
+    -- A server can exist without what it runs on (roslyn without .NET) and would error
+    -- on every buffer, so those languages stay off until it's there
     local servers = {}
     for _, lang in ipairs(require("custom.languages")) do
         local usable = vim.iter(lang.requires or {}):all(function(bin)

@@ -27,6 +27,12 @@ vim.g.loaded_python3_provider = 0
 vim.env.MASON = vim.fn.stdpath("data") .. "/mason"
 vim.env.PATH = vim.env.PATH .. ":" .. vim.env.MASON .. "/bin"
 
+-- .NET tools only look for the runtime in a default location, which Gentoo's SDKs aren't in
+local dotnet = vim.env.DOTNET_ROOT == nil and vim.uv.fs_realpath(vim.fn.exepath("dotnet"))
+if dotnet then
+    vim.env.DOTNET_ROOT = vim.fs.dirname(dotnet)
+end
+
 local o = vim.opt
 
 -- Behavior
