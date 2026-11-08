@@ -67,7 +67,9 @@ return {
             require("snacks").setup({
                 bigfile = { enabled = true },
                 explorer = { enabled = true, replace_netrw = true },
-                image = { enabled = not vim.g.tty, doc = { enabled = false } },
+                -- Images referenced in Markdown, HTML and the like show in a float while the
+                -- cursor is on them, instead of being drawn into the text
+                image = { enabled = not vim.g.tty, doc = { inline = false, max_width = 60, max_height = 20 } },
                 indent = {
                     enabled = true,
                     indent = { char = vim.g.tty and "|" or "│" },

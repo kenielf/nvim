@@ -15,7 +15,7 @@ Run `:checkhealth custom` to see what is working for each language and what is m
 ### System dependencies
 Needed for installing tools: `git`, `curl`, `tar`, `unzip`, `gzip` and a C compiler.
 
-Recommended: `ripgrep`, `fd` and `imagemagick` (image previews).
+Recommended: `ripgrep`, `fd` and `imagemagick` (image previews, in kitty, WezTerm or Ghostty; inside tmux 3.3+ too). Images open as pictures, and images referenced in Markdown show in a float while the cursor is on them.
 
 Each language's tools are only installed once its toolchain exists. Installing the toolchain later is enough, the tools follow on the next start.
 

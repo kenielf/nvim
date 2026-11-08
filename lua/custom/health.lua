@@ -113,6 +113,8 @@ function M.check()
         end
     end
 
+    M.check_images()
+
     health.start("Screenshots")
     local silicon = require("custom.silicon")
     if not silicon.is_installed() then
@@ -132,6 +134,56 @@ function M.check()
         health.warn("`wl-copy` not found, screenshots can't reach the clipboard")
     elseif os.getenv("DISPLAY") and not has("xclip") then
         health.warn("`xclip` not found, screenshots can't reach the clipboard")
+    end
+end
+
+-- Images are drawn by the terminal itself (kitty graphics protocol), so whether they show
+-- depends on where Neovim runs, not only on what's installed
+function M.check_images()
+    local health = vim.health
+    health.start("Images")
+    if vim.g.tty then
+        health.info("Disabled on the Linux console, image files open as usual")
+        return
+    elseif vim.g.is_neovide then
+        health.info("Neovide can't display images, they're disabled")
+        return
+    end
+
+    local ok, env = pcall(Snacks.image.terminal.env)
+    if not ok then
+        health.warn("Couldn't detect the terminal: " .. tostring(env))
+    elseif env.supported then
+        health.ok(("Terminal supports images (%s)"):format(env.name))
+    else
+        health.warn(("Terminal can't display images (%s)"):format(env.name ~= "" and env.name or "unknown"),
+            "Images need kitty, WezTerm or Ghostty. Elsewhere image files open as usual.")
+    end
+    if ok and env.name:find("tmux") then
+        health.info("Inside tmux, snacks turns on `allow-passthrough` for its pane, which needs tmux 3.3+")
+    end
+    if ok and env.remote then
+        health.info("Over SSH, images are sent through the connection, the local terminal has to support them")
+    end
+
+    if has("magick") then
+        health.ok("`magick` found, formats other than PNG are converted")
+    else
+        health.warn("`magick` not found, only PNG images can be shown", "Install ImageMagick")
+    end
+    if has("gs") then
+        health.ok("`gs` found, PDFs show their first page")
+    else
+        health.info("`gs` not found, PDFs can't be previewed (install Ghostscript)")
+    end
+    if has("ffmpeg") then
+        health.ok("`ffmpeg` found, videos show a single frame (playback isn't possible in a terminal)")
+    else
+        health.info("`ffmpeg` not found, videos can't be previewed")
+    end
+    health.info("Images in Markdown show in a float while the cursor is on them")
+    if not has("mmdc") then
+        health.info("Mermaid diagrams aren't rendered (needs `mmdc`)")
     end
 end
 
