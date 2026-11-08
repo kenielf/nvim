@@ -118,6 +118,21 @@ return {
         parsers = { "helm" },
     },
     {
+        -- vimtex compiles and views, see custom/tex.lua
+        name = "LaTeX",
+        requires = { "latexmk" },
+        servers = { "texlab" },
+        tools = { "texlab" },
+        parsers = { "latex", "bibtex" },
+        formatters = { tex = { "latexindent" } },
+        optional = {
+            latexindent = "formatting",
+            chktex = "style warnings through texlab",
+            biber = "bibliographies with biblatex",
+            zathura = "PDF viewer, jumps between source and PDF when built with SyncTeX",
+        },
+    },
+    {
         -- Docker's server covers Dockerfiles (BuildKit checks), Compose and Bake files.
         -- Compose files keep yamlls too, for schema validation, and prettierd as formatter.
         name = "Docker",

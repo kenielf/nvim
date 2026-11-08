@@ -2,6 +2,15 @@ return {
     -- Screenshots, see custom/silicon.lua
     { "michaelrommel/nvim-silicon" },
 
+    -- LaTeX, see custom/tex.lua. vimtex has to be loaded before the first .tex buffer sets
+    -- its filetype, and it only loads its code then, so it's eager.
+    {
+        "lervag/vimtex",
+        eager = true,
+        cond = function() return vim.fn.executable("latexmk") == 1 end,
+        config = function() require("custom.tex").setup() end,
+    },
+
     -- Kubernetes cluster browser. Release tags come with a prebuilt library, so no Rust is needed.
     { "saghen/blink.lib" },
     {

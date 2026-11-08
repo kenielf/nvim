@@ -113,6 +113,12 @@ function M.check()
         end
     end
 
+    if vim.fn.executable("zathura") == 1 and not require("custom.tex").zathura_synctex() then
+        health.start("LaTeX viewer")
+        health.warn("zathura is built without SyncTeX, so it can't jump between the source and the PDF",
+            "Rebuild it with SyncTeX, until then it only shows the PDF")
+    end
+
     M.check_images()
 
     health.start("Screenshots")

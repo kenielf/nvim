@@ -1,4 +1,5 @@
 local snippet_dir = vim.fn.stdpath("config") .. "/snippets"
+local expandable = {} ---@type table<string, boolean> snippet body -> Neovim can expand it
 
 return {
     -- Server configs, used as data only (lsp/*.lua). Enabled on the first real file
@@ -56,6 +57,21 @@ return {
                             score_offset = 100,
                         },
                         snippets = {
+                            -- Some friendly-snippets use TextMate transforms Neovim can't expand,
+                            -- accepting one would fail. snippets/ has working versions of the LaTeX ones.
+                            transform_items = function(_, items)
+                                local ok, grammar = pcall(require, "vim.lsp._snippet_grammar")
+                                if not ok then
+                                    return items
+                                end
+                                return vim.tbl_filter(function(item)
+                                    local body = item.insertText or item.label
+                                    if expandable[body] == nil then
+                                        expandable[body] = pcall(grammar.parse, body)
+                                    end
+                                    return expandable[body]
+                                end, items)
+                            end,
                             opts = {
                                 search_paths = { snippet_dir },
                                 extended_filetypes = { javascript = { "html" } },
@@ -111,6 +127,8 @@ return {
             end
             require("conform").setup({
                 formatters_by_ft = formatters_by_ft,
+                -- latexindent writes indent.log into the project otherwise
+                formatters = { latexindent = { prepend_args = { "-g", "/dev/null" } } },
                 default_format_opts = { lsp_format = "fallback" },
                 notify_no_formatters = true,
                 format_on_save = function()

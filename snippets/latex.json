@@ -1,0 +1,82 @@
+{
+  "Chapter": {
+    "prefix": "cha",
+    "body": [
+      "\\chapter{${1:name}}\\label{chap:${2:label}}",
+      "$0"
+    ]
+  },
+  "Part": {
+    "prefix": "part",
+    "body": [
+      "\\part{${1:name}}\\label{prt:${2:label}}",
+      "$0"
+    ]
+  },
+  "Section": {
+    "prefix": "sec",
+    "body": [
+      "\\section{${1:name}}\\label{sec:${2:label}}",
+      "$0"
+    ]
+  },
+  "Sub Section": {
+    "prefix": "sub",
+    "body": [
+      "\\subsection{${1:name}}\\label{sub:${2:label}}",
+      "$0"
+    ]
+  },
+  "Sub Sub Section": {
+    "prefix": "subs",
+    "body": [
+      "\\subsubsection{${1:name}}\\label{ssub:${2:label}}",
+      "$0"
+    ]
+  },
+  "Paragraph": {
+    "prefix": "par",
+    "body": [
+      "\\paragraph{${1:name}}\\label{par:${2:label}}",
+      "$0"
+    ]
+  },
+  "Sub Paragraph": {
+    "prefix": "subp",
+    "body": [
+      "\\subparagraph{${1:name}}\\label{subp:${2:label}}",
+      "$0"
+    ]
+  },
+  "Environment": {
+    "prefix": "begin",
+    "body": [
+      "\\begin{${1:env}}",
+      "\t$0",
+      "\\end{$1}"
+    ]
+  },
+  "Tabular": {
+    "prefix": "tab",
+    "body": [
+      "\\begin{tabular}{${1:c c}}",
+      "\t$0",
+      "\\end{tabular}"
+    ]
+  },
+  "Display Math": {
+    "prefix": "$$",
+    "body": [
+      "\\\\[",
+      "\t$1",
+      "\\\\]",
+      "$0"
+    ]
+  },
+  "Font size": {
+    "prefix": "fontsize",
+    "body": [
+      "{${1|\\\\Huge,\\\\huge,\\\\LARGE,\\\\Large,\\\\large,\\\\normalsize,\\\\small,\\\\footnotesize,\\\\scriptsize,\\\\tiny|} $0}"
+    ]
+  }
+}

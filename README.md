@@ -34,6 +34,7 @@ Each language's tools are only installed once its toolchain exists. Installing t
 | Ansible | `ansible`, `python3` | `uv` (debugging, installs ansibug) |
 | Helm | `helm` | |
 | Kubernetes cluster browser | `kubectl` | |
+| LaTeX | `latexmk` (TeX Live) | `latexindent` (formatting), `chktex` (warnings), `biber`, `zathura` (viewer, built with SyncTeX to jump between source and PDF) |
 | Per-project environment | | `direnv` |
 | Screenshots | `silicon`, `xclip` or `wl-copy` | |
 
@@ -55,6 +56,7 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 | OpenTofu, Terraform | tofu-ls | tofu fmt | |
 | Ansible, Jinja | ansible-language-server, ansible-lint | | ansibug |
 | Kubernetes manifests, Helm | yamlls (Kubernetes schemas), helm-ls | prettierd (manifests) | |
+| LaTeX, BibTeX | texlab, chktex (vimtex compiles and views) | latexindent | |
 | Dockerfile, Compose, Bake | docker-language-server, hadolint, yamlls (Compose schema) | prettierd (Compose) | |
 | GLSL, WGSL, HLSL, Slang | glsl_analyzer, wgsl-analyzer, slangd | clang-format (GLSL, HLSL) | |
 | Lua | lua-language-server | stylua | |
@@ -65,6 +67,8 @@ Debug projects can also use `.vscode/launch.json`, nvim-dap reads it automatical
 Tests run through neotest with pytest, CTest (GoogleTest, Catch2, doctest), `dotnet test`, JUnit (through jdtls, the JUnit console launcher is installed with the other tools), Vitest and Jest. Python projects need a `pyproject.toml`, `setup.py` or `pytest.ini` to be recognized, C++ projects a CMake build directory.
 
 Ansible files are recognized inside `roles/*/tasks`, `roles/*/handlers` and `playbooks/`, and anywhere else when the file starts with a play (`- hosts:` or `- import_playbook:`). If one is missed, add `# vim: ft=yaml.ansible` to it.
+
+LaTeX goes through vimtex, with its mappings under `<localleader>l` (the local leader is `\`): `\ll` compiles continuously with latexmk, `\lv` opens the PDF in zathura, `\lt` shows the table of contents, `\le` the errors and `\lc` cleans the build files. texlab completes commands, labels and citations. LaTeX keeps vimtex's syntax highlighting instead of treesitter, its math detection and concealing depend on it. If zathura is built without SyncTeX it still shows the PDF and reloads it after each build, but can't jump between the source and the PDF.
 
 Kubernetes manifests (YAML files with a top-level `apiVersion` and `kind`) are validated against the schema for their kind, and custom resources against the [CRDs catalog](https://github.com/datreeio/CRDs-catalog). Files under a chart's `templates/` are Helm templates, the chart's `values*.yaml` are its values.
 
@@ -130,6 +134,7 @@ lua/custom/
   kube.lua          Kubernetes context for the statusline
   direnv.lua        Loads the working directory's .envrc
   pdf.lua           PDF paging and reload on rebuild
+  tex.lua           vimtex settings and the zathura viewer
   health.lua        :checkhealth custom
   plugins/          Plugin specs by area
 snippets/           Personal snippets, in VS Code format

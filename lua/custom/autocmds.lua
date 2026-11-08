@@ -4,10 +4,15 @@ local function autocmd(event, opts)
     vim.api.nvim_create_autocmd(event, opts)
 end
 
--- Native treesitter: highlighting and folds for any filetype with an installed parser
+-- Native treesitter: highlighting and folds for any filetype with an installed parser.
+-- vimtex's syntax stays for LaTeX, its math-zone detection and concealing depend on it.
+local own_syntax = { tex = true, plaintex = true }
 autocmd("FileType", {
     desc = "Start treesitter",
     callback = function(ev)
+        if own_syntax[vim.bo[ev.buf].filetype] then
+            return
+        end
         if pcall(vim.treesitter.start, ev.buf) and vim.api.nvim_get_current_buf() == ev.buf then
             vim.wo[0][0].foldmethod = "expr"
             vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
