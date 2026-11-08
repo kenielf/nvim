@@ -58,6 +58,8 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 
 Debug projects can also use `.vscode/launch.json`, nvim-dap reads it automatically.
 
+Tests run through neotest with pytest, CTest (GoogleTest, Catch2, doctest), `dotnet test`, JUnit (through jdtls, `:NeotestJava setup` downloads the JUnit runner once), Vitest and Jest. Python projects need a `pyproject.toml`, `setup.py` or `pytest.ini` to be recognized, C++ projects a CMake build directory.
+
 Ansible files are recognized inside `roles/*/tasks`, `roles/*/handlers` and `playbooks/`, and anywhere else when the file starts with a play (`- hosts:` or `- import_playbook:`). If one is missed, add `# vim: ft=yaml.ansible` to it.
 
 Kubernetes manifests (YAML files with a top-level `apiVersion` and `kind`) are validated against the schema for their kind, and custom resources against the [CRDs catalog](https://github.com/datreeio/CRDs-catalog). Files under a chart's `templates/` are Helm templates, the chart's `values*.yaml` are its values.
@@ -80,6 +82,7 @@ The leader is `<space>`. Press it and wait to browse everything with which-key.
 | `<leader>t` | Diagnostics panel |
 | `<F5>` `<F9>` `<F10>` `<F11>` `<F12>` | Debug: continue, breakpoint, over, into, out |
 | `<leader>D` | Debugger menu, `<leader>DD` toggles its UI |
+| `<leader>r` | Tests: `rr` nearest, `rf` file, `ra` all, `rd` debug nearest, `rs` summary, `ro` output, `rw` watch; `]t` `[t` jump between failed tests |
 | `<leader>G` | Git menu: status, log, commit, push, pull, merge, branches, blame |
 | `<leader>sf` `<leader>st` | Flash jump, Flash treesitter |
 | `<leader>sc` (visual) | Screenshot the selection to the clipboard |

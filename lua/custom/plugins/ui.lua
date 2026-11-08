@@ -316,6 +316,7 @@ return {
                 { "<leader>l", group = "LSP" },
                 { "<leader>m", group = "Join / split" },
                 { "<leader>p", group = "Plugins and tools" },
+                { "<leader>r", group = "Tests" },
                 { "<leader>s", group = "Sort, jump, snippets, screenshots" },
                 { "<leader>T", group = "Todo comments" },
                 { "<leader>u", group = "Toggles" },

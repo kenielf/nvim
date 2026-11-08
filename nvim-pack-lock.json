@@ -66,6 +66,34 @@
       "rev": "ba2f33b64b996ff5530c4c45a3c432fb63aaa95b",
       "src": "https://github.com/NeogitOrg/neogit"
     },
+    "neotest": {
+      "rev": "27bf921498043f7ecd821d6db68d05de244bbd02",
+      "src": "https://github.com/nvim-neotest/neotest"
+    },
+    "neotest-ctest": {
+      "rev": "cb3abe936693376df8830dfb0c3706367759b142",
+      "src": "https://github.com/orjangj/neotest-ctest"
+    },
+    "neotest-java": {
+      "rev": "30cbbd23e6dca0309500632052bc3fe2ba4c3d6d",
+      "src": "https://github.com/rcasia/neotest-java"
+    },
+    "neotest-jest": {
+      "rev": "0e7979d51301dfae5ef839d771bd28cf593fde3f",
+      "src": "https://github.com/nvim-neotest/neotest-jest"
+    },
+    "neotest-python": {
+      "rev": "1b56ca4ba51c6014f986d6548ee629bdc95589d1",
+      "src": "https://github.com/nvim-neotest/neotest-python"
+    },
+    "neotest-vitest": {
+      "rev": "b0c265743c877058068dbc40d104ea5d40e6b257",
+      "src": "https://github.com/marilari88/neotest-vitest"
+    },
+    "neotest-vstest": {
+      "rev": "de30c7978937d07e6d29ab7807a00fad1c61120b",
+      "src": "https://github.com/nsidorenco/neotest-vstest"
+    },
     "noice.nvim": {
       "rev": "7bfd942445fb63089b59f97ca487d605e715f155",
       "src": "https://github.com/folke/noice.nvim"

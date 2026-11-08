@@ -75,6 +75,7 @@ local function configure(dap)
         command = "netcoredbg",
         args = { "--interpreter=vscode" },
     })
+    dap.adapters.netcoredbg = dap.adapters.coreclr -- the name neotest-vstest debugs with
     dap.configurations.cs = {
         {
             name = "Launch assembly",

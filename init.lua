@@ -13,6 +13,7 @@ require("custom.pack").setup({
     require("custom.plugins.coding"),
     require("custom.plugins.git"),
     require("custom.plugins.debug"),
+    require("custom.plugins.test"),
     require("custom.plugins.extra"),
 })
 
