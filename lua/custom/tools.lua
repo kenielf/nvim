@@ -21,6 +21,10 @@ local function has(bin)
     return vim.fn.executable(bin) == 1
 end
 
+-- ansibug runs playbooks with the Python it's installed in, so it gets a venv that also
+-- sees the system Python's packages, where Ansible and its collections are installed
+M.ansibug_python = vim.fn.stdpath("data") .. "/ansibug/bin/python"
+
 ---@return string[] packages, string[] parsers, table<string, string> skipped package -> reason
 local function wanted()
     local packages, parsers, skipped = {}, {}, {}
@@ -49,6 +53,7 @@ local function fingerprint()
     for _, bin in pairs(source_requirements) do
         table.insert(parts, bin .. "=" .. tostring(has(bin)))
     end
+    table.insert(parts, "ansibug=" .. tostring(has("ansible") and has("uv") and vim.uv.fs_stat(M.ansibug_python) ~= nil))
     table.sort(parts)
     return vim.fn.sha256(table.concat(parts, ","))
 end
@@ -104,6 +109,32 @@ local function install_parsers(parsers, done)
     end)
 end
 
+---@param failures string[]
+local function install_ansibug(failures, done)
+    if not (has("ansible") and has("uv")) or vim.uv.fs_stat(M.ansibug_python) then
+        return done()
+    end
+    local venv = vim.fs.dirname(vim.fs.dirname(M.ansibug_python))
+    local function fail(result)
+        table.insert(failures, "ansibug: " .. vim.trim(result.stderr or ""))
+        vim.fn.delete(venv, "rf")
+        done()
+    end
+    vim.system({ "uv", "venv", "--system-site-packages", "--python", vim.fn.exepath("python3"), venv }, {},
+        vim.schedule_wrap(function(created)
+            if created.code ~= 0 then
+                return fail(created)
+            end
+            vim.system({ "uv", "pip", "install", "--python", M.ansibug_python, "ansibug" }, {},
+                vim.schedule_wrap(function(installed)
+                    if installed.code ~= 0 then
+                        return fail(installed)
+                    end
+                    done()
+                end))
+        end))
+end
+
 ---@param force boolean? Check everything even if nothing appears to have changed
 function M.ensure(force)
     if not force and read_stamp() == fingerprint() then
@@ -140,13 +171,15 @@ function M.ensure(force)
         end
 
         local function finish()
-            install_parsers(parsers, function(parsers_ok)
-                if #failures > 0 then
-                    vim.notify("Failed to install:\n" .. table.concat(failures, "\n"), vim.log.levels.ERROR)
-                elseif parsers_ok then
-                    write_stamp()
-                end
-                vim.api.nvim_exec_autocmds("User", { pattern = "CustomToolsDone", modeline = false })
+            install_ansibug(failures, function()
+                install_parsers(parsers, function(parsers_ok)
+                    if #failures > 0 then
+                        vim.notify("Failed to install:\n" .. table.concat(failures, "\n"), vim.log.levels.ERROR)
+                    elseif parsers_ok then
+                        write_stamp()
+                    end
+                    vim.api.nvim_exec_autocmds("User", { pattern = "CustomToolsDone", modeline = false })
+                end)
             end)
         end
 

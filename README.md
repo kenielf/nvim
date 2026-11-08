@@ -28,6 +28,8 @@ Each language's tools are only installed once its toolchain exists. Installing t
 | Perl | `perl`, `npm` | `perltidy` (formatting), `perlcritic` (linting), `PadWalker` module (debugging) |
 | Rust | `cargo` | `clippy`, `rustfmt` |
 | JavaScript / web | `node`, `npm` | |
+| OpenTofu, Terraform | Nothing | `tofu` (formatting) |
+| Ansible | `ansible`, `python3` | `uv` (debugging, installs ansibug) |
 | Screenshots | `silicon`, `xclip` or `wl-copy` | |
 
 Tools already on `PATH` are used in preference to Mason's copies.
@@ -45,11 +47,15 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 | Perl | perlnavigator | perltidy | perl-debug-adapter |
 | Rust | rust-analyzer | rustfmt | codelldb |
 | JS, TS, web | vtsls, eslint, html, css, json, tailwind, emmet | prettierd | js-debug-adapter |
+| OpenTofu, Terraform | tofu-ls | tofu fmt | |
+| Ansible, Jinja | ansible-language-server, ansible-lint | | ansibug |
 | GLSL, WGSL, HLSL, Slang | glsl_analyzer, wgsl-analyzer, slangd | clang-format (GLSL, HLSL) | |
 | Lua | lua-language-server | stylua | |
 | Markdown, YAML, TOML, CMake | marksman, yamlls, taplo, neocmake | prettierd, taplo | |
 
 Debug projects can also use `.vscode/launch.json`, nvim-dap reads it automatically.
+
+Ansible files are recognized inside `roles/*/tasks`, `roles/*/handlers` and `playbooks/`, and anywhere else when the file starts with a play (`- hosts:` or `- import_playbook:`). If one is missed, add `# vim: ft=yaml.ansible` to it.
 
 ## Keymaps
 The leader is `<space>`. Press it and wait to browse everything with which-key.
@@ -94,7 +100,7 @@ Set `NVIM_NO_DISCORD=1` to keep a session off Discord Rich Presence.
 ```
 init.lua
 after/lsp/          Overrides on top of nvim-lspconfig's server configs
-ftplugin/java.lua   Starts jdtls
+ftplugin/           Starts jdtls, comment settings for OpenTofu and Jinja
 lua/custom/
   pack.lua          Lazy-loading on top of vim.pack
   languages.lua     Servers, tools, parsers and formatters per language

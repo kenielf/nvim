@@ -89,6 +89,18 @@ function M.check()
         health.warn("Perl module PadWalker not found, perl-debug-adapter requires it",
             "Install dev-perl/PadWalker or run `cpan PadWalker`")
     end
+    if has("ansible") then
+        local python = require("custom.tools").ansibug_python
+        if vim.fn.executable(python) == 0 then
+            health.warn("ansibug isn't installed, debugging playbooks requires it",
+                has("uv") and "Run :ToolsInstall" or "Install `uv`, then run :ToolsInstall")
+        elseif vim.system({ python, "-c", "import ansible, ansibug" }):wait().code ~= 0 then
+            health.warn("ansibug can't import Ansible, maybe the system Python changed",
+                "Delete " .. vim.fs.dirname(vim.fs.dirname(python)) .. " and run :ToolsInstall")
+        else
+            health.ok("ansibug installed")
+        end
+    end
 
     health.start("Screenshots")
     local silicon = require("custom.silicon")

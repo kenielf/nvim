@@ -84,9 +84,34 @@ o.foldlevelstart = 99
 o.foldtext = ""
 o.fillchars:append({ fold = " ", eob = " " })
 
+-- Ansible files are plain YAML, so playbooks are recognized by a top-level play with `hosts:`
+-- or `import_playbook:`, and everything else by where it sits in a role or playbooks folder
+local function yaml_or_ansible(_, buf)
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, 40, false)
+    local first = vim.iter(lines):find(function(line)
+        return line:find("^[^#%s]") and not line:find("^%-%-%-")
+    end)
+    if first and first:find("^%- ") then
+        for _, line in ipairs(lines) do
+            if line:find("^%-? ?%s?hosts:") or line:find("^%- [%w%.]*import_playbook:") then
+                return "yaml.ansible"
+            end
+        end
+    end
+    return "yaml"
+end
+
 -- Filetypes Neovim doesn't detect on its own
 vim.filetype.add({
+    pattern = {
+        [".*/roles/[^/]+/tasks/.*%.ya?ml"] = "yaml.ansible",
+        [".*/roles/[^/]+/handlers/.*%.ya?ml"] = "yaml.ansible",
+        [".*/playbooks/.*%.ya?ml"] = "yaml.ansible",
+    },
     extension = {
+        yml = yaml_or_ansible, yaml = yaml_or_ansible,
+        tofu = "opentofu", tofuvars = "opentofu-vars",
+        j2 = "jinja",
         vert = "glsl", frag = "glsl", geom = "glsl", comp = "glsl",
         tesc = "glsl", tese = "glsl", rgen = "glsl", rchit = "glsl",
         rmiss = "glsl", rahit = "glsl", rint = "glsl", mesh = "glsl", task = "glsl",
@@ -96,6 +121,7 @@ vim.filetype.add({
         gdshader = "gdshader", gdshaderinc = "gdshader",
     },
 })
+vim.treesitter.language.register("terraform", { "opentofu", "opentofu-vars" })
 
 -- Neovide
 if vim.g.is_neovide then

@@ -90,6 +90,25 @@ return {
         },
     },
     {
+        -- tofu-ls reads the configuration on its own, the tofu CLI is only needed to format
+        name = "OpenTofu",
+        servers = { "tofu_ls" },
+        tools = { "tofu-ls" },
+        parsers = { "terraform", "hcl" },
+        formatters = {
+            opentofu = { "tofu_fmt" }, ["opentofu-vars"] = { "tofu_fmt" },
+            terraform = { "tofu_fmt" }, ["terraform-vars"] = { "tofu_fmt" },
+        },
+        optional = { tofu = "formatting (tofu fmt)" },
+    },
+    {
+        name = "Ansible",
+        requires = { "ansible" },
+        servers = { "ansiblels" },
+        tools = { "ansible-language-server", "ansible-lint" },
+        parsers = { "jinja", "jinja_inline" },
+    },
+    {
         name = "Shaders",
         servers = { "glsl_analyzer", "wgsl_analyzer", "slangd" },
         tools = { "glsl_analyzer", "wgsl-analyzer", "slang", "clang-format" },

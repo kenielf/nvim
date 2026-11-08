@@ -153,6 +153,25 @@ local function configure(dap)
         },
     }
 
+    -- Ansible, through the ansibug venv from custom/tools.lua
+    dap.adapters.ansible = function(callback)
+        local python = require("custom.tools").ansibug_python
+        if vim.fn.executable(python) == 0 then
+            vim.notify("ansibug isn't installed. Run :ToolsInstall, it needs `uv` and `ansible`.",
+                vim.log.levels.ERROR)
+            return
+        end
+        callback({ type = "executable", command = python, args = { "-m", "ansibug", "dap" } })
+    end
+    dap.configurations["yaml.ansible"] = {
+        {
+            name = "Run playbook",
+            type = "ansible",
+            request = "launch",
+            playbook = "${file}",
+        },
+    }
+
     -- JavaScript and TypeScript
     local js_adapter = adapter("js-debug-adapter", {
         type = "server",
