@@ -117,7 +117,7 @@ With `direnv` installed, the working directory's `.envrc` is loaded on startup a
 ```
 init.lua
 after/lsp/          Overrides on top of nvim-lspconfig's server configs
-ftplugin/           Starts jdtls, comment settings for OpenTofu and Jinja
+ftplugin/           Starts jdtls, comment settings for OpenTofu and Jinja, closes health reports cleanly
 lua/custom/
   pack.lua          Lazy-loading on top of vim.pack
   languages.lua     Servers, tools, parsers, formatters and linters per language
