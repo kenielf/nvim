@@ -20,3 +20,4 @@ require("custom.pack").setup({
 -- Features built on top of the above
 require("custom.silicon").setup()
 require("custom.tools").setup()
+require("custom.direnv").setup()

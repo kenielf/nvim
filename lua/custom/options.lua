@@ -125,6 +125,13 @@ vim.filetype.add({
         [".*/roles/[^/]+/tasks/.*%.ya?ml"] = "yaml.ansible",
         [".*/roles/[^/]+/handlers/.*%.ya?ml"] = "yaml.ansible",
         [".*/playbooks/.*%.ya?ml"] = "yaml.ansible",
+        [".*/compose%.[%w%-_.]+%.ya?ml"] = "yaml.docker-compose",
+        [".*/docker%-compose%.[%w%-_.]+%.ya?ml"] = "yaml.docker-compose",
+    },
+    filename = {
+        ["compose.yaml"] = "yaml.docker-compose", ["compose.yml"] = "yaml.docker-compose",
+        ["docker-compose.yaml"] = "yaml.docker-compose", ["docker-compose.yml"] = "yaml.docker-compose",
+        ["docker-bake.hcl"] = "hcl.docker-bake", ["docker-bake.override.hcl"] = "hcl.docker-bake",
     },
     extension = {
         yml = yaml_or_ansible, yaml = yaml_or_ansible,

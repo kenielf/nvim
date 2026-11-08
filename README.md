@@ -32,12 +32,13 @@ Each language's tools are only installed once its toolchain exists. Installing t
 | Ansible | `ansible`, `python3` | `uv` (debugging, installs ansibug) |
 | Helm | `helm` | |
 | Kubernetes cluster browser | `kubectl` | |
+| Per-project environment | | `direnv` |
 | Screenshots | `silicon`, `xclip` or `wl-copy` | |
 
 Tools already on `PATH` are used in preference to Mason's copies.
 
 ## Language support
-Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua). Adding a language means adding one entry there, plus a file in `after/lsp/` if its server needs custom settings.
+Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua), linters without a language server run through nvim-lint. Adding a language means adding one entry there, plus a file in `after/lsp/` if its server needs custom settings.
 
 | Language | Server | Formatter | Debugger |
 |---|---|---|---|
@@ -52,6 +53,7 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 | OpenTofu, Terraform | tofu-ls | tofu fmt | |
 | Ansible, Jinja | ansible-language-server, ansible-lint | | ansibug |
 | Kubernetes manifests, Helm | yamlls (Kubernetes schemas), helm-ls | prettierd (manifests) | |
+| Dockerfile, Compose, Bake | docker-language-server, hadolint, yamlls (Compose schema) | prettierd (Compose) | |
 | GLSL, WGSL, HLSL, Slang | glsl_analyzer, wgsl-analyzer, slangd | clang-format (GLSL, HLSL) | |
 | Lua | lua-language-server | stylua | |
 | Markdown, YAML, TOML, CMake | marksman, yamlls, taplo, neocmake | prettierd, taplo | |
@@ -109,6 +111,8 @@ Remote files open over SSH with `nvim scp://host//absolute/path` (one slash for 
 
 The statusline shows the current Kubernetes context and namespace, in red when the context matches `vim.g.kube_danger_pattern` (a Lua pattern, `"prod"` by default).
 
+With `direnv` installed, the working directory's `.envrc` is loaded on startup and whenever the directory changes, and unloaded when leaving it, so the statusline, terminals, tests and debug sessions follow each project's `KUBECONFIG`, `AWS_PROFILE` and so on. A new or edited `.envrc` stays blocked until `:DirenvAllow`. `:DirenvReload` reloads it. Language servers that were already running keep their environment until `:lsp restart`.
+
 ## Layout
 ```
 init.lua
@@ -116,12 +120,13 @@ after/lsp/          Overrides on top of nvim-lspconfig's server configs
 ftplugin/           Starts jdtls, comment settings for OpenTofu and Jinja
 lua/custom/
   pack.lua          Lazy-loading on top of vim.pack
-  languages.lua     Servers, tools, parsers and formatters per language
+  languages.lua     Servers, tools, parsers, formatters and linters per language
   tools.lua         Installs tools and parsers, skipping what can't be installed yet
   lsp.lua           Diagnostics, LspAttach keymaps and native LSP features
   debug.lua         Debug adapters
   silicon.lua       Screenshots and the font search
   kube.lua          Kubernetes context for the statusline
+  direnv.lua        Loads the working directory's .envrc
   health.lua        :checkhealth custom
   plugins/          Plugin specs by area
 snippets/           Personal snippets, in VS Code format

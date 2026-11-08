@@ -122,6 +122,28 @@ return {
         end,
     },
 
+    -- Linters that no language server runs, from the linters field of custom/languages.lua
+    {
+        "mfussenegger/nvim-lint",
+        event = { "BufReadPost", "BufNewFile" },
+        config = function()
+            local lint = require("lint")
+            local linters_by_ft = {}
+            for _, lang in ipairs(require("custom.languages")) do
+                linters_by_ft = vim.tbl_extend("force", linters_by_ft, lang.linters or {})
+            end
+            lint.linters_by_ft = linters_by_ft
+            -- A linter that isn't installed yet stays quiet, :checkhealth custom reports it
+            local function run() lint.try_lint(nil, { ignore_errors = true }) end
+            vim.api.nvim_create_autocmd({ "FileType", "BufWritePost", "InsertLeave" }, {
+                group = vim.api.nvim_create_augroup("custom.lint", {}),
+                callback = run,
+            })
+            -- Loaded by BufReadPost, which comes before the first buffer's filetype is known
+            vim.schedule(run)
+        end,
+    },
+
     -- Installer for language tools, see custom/tools.lua
     {
         "mason-org/mason.nvim",

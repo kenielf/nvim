@@ -4,6 +4,7 @@
 --   tools       Mason packages, skipped when the same binary is already on the system
 --   parsers     treesitter parsers
 --   formatters  conform.nvim formatters by filetype, falls back to the language server
+--   linters     nvim-lint linters by filetype, for checks no language server runs
 --   requires    executables the language can't work without, its tools are skipped
 --               and reported in :checkhealth custom until they exist
 --   optional    executables that only add features, as { bin = "what it adds" }
@@ -117,6 +118,15 @@ return {
         parsers = { "helm" },
     },
     {
+        -- Docker's server covers Dockerfiles (BuildKit checks), Compose and Bake files.
+        -- Compose files keep yamlls too, for schema validation, and prettierd as formatter.
+        name = "Docker",
+        servers = { "docker_language_server" },
+        tools = { "docker-language-server", "hadolint" },
+        parsers = { "dockerfile", "hcl" },
+        linters = { dockerfile = { "hadolint" } },
+    },
+    {
         name = "Shaders",
         servers = { "glsl_analyzer", "wgsl_analyzer", "slangd" },
         tools = { "glsl_analyzer", "wgsl-analyzer", "slang", "clang-format" },
@@ -135,7 +145,7 @@ return {
         servers = { "marksman", "yamlls", "taplo", "neocmake" },
         tools = { "marksman", "yaml-language-server", "taplo", "neocmakelsp" },
         parsers = {
-            "markdown", "markdown_inline", "yaml", "toml", "xml", "ini", "dockerfile", "sql",
+            "markdown", "markdown_inline", "yaml", "toml", "xml", "ini", "sql",
             "regex", "diff", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore",
         },
         formatters = { markdown = prettier, yaml = prettier, toml = { "taplo" } },
