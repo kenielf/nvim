@@ -49,8 +49,8 @@ local function on_attach(ev)
         end
     end
 
-    -- Breadcrumbs for the statusline
-    if client:supports_method("textDocument/documentSymbol", buf) then
+    -- Breadcrumbs for the statusline, from the first server that offers them
+    if client:supports_method("textDocument/documentSymbol", buf) and not vim.b[buf].navic_client_id then
         require("custom.pack").load("nvim-navic")
         require("nvim-navic").attach(client, buf)
     end

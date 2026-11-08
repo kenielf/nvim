@@ -30,6 +30,8 @@ Each language's tools are only installed once its toolchain exists. Installing t
 | JavaScript / web | `node`, `npm` | |
 | OpenTofu, Terraform | Nothing | `tofu` (formatting) |
 | Ansible | `ansible`, `python3` | `uv` (debugging, installs ansibug) |
+| Helm | `helm` | |
+| Kubernetes cluster browser | `kubectl` | |
 | Screenshots | `silicon`, `xclip` or `wl-copy` | |
 
 Tools already on `PATH` are used in preference to Mason's copies.
@@ -49,6 +51,7 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 | JS, TS, web | vtsls, eslint, html, css, json, tailwind, emmet | prettierd | js-debug-adapter |
 | OpenTofu, Terraform | tofu-ls | tofu fmt | |
 | Ansible, Jinja | ansible-language-server, ansible-lint | | ansibug |
+| Kubernetes manifests, Helm | yamlls (Kubernetes schemas), helm-ls | prettierd (manifests) | |
 | GLSL, WGSL, HLSL, Slang | glsl_analyzer, wgsl-analyzer, slangd | clang-format (GLSL, HLSL) | |
 | Lua | lua-language-server | stylua | |
 | Markdown, YAML, TOML, CMake | marksman, yamlls, taplo, neocmake | prettierd, taplo | |
@@ -56,6 +59,8 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 Debug projects can also use `.vscode/launch.json`, nvim-dap reads it automatically.
 
 Ansible files are recognized inside `roles/*/tasks`, `roles/*/handlers` and `playbooks/`, and anywhere else when the file starts with a play (`- hosts:` or `- import_playbook:`). If one is missed, add `# vim: ft=yaml.ansible` to it.
+
+Kubernetes manifests (YAML files with a top-level `apiVersion` and `kind`) are validated against the schema for their kind, and custom resources against the [CRDs catalog](https://github.com/datreeio/CRDs-catalog). Files under a chart's `templates/` are Helm templates, the chart's `values*.yaml` are its values.
 
 ## Keymaps
 The leader is `<space>`. Press it and wait to browse everything with which-key.
@@ -81,6 +86,7 @@ The leader is `<space>`. Press it and wait to browse everything with which-key.
 | `<leader>sF` | Search system fonts for screenshots |
 | `<leader>se` `<leader>sa` | Edit snippet, add snippet |
 | `<leader>mm` | Split or join the code under the cursor |
+| `<leader>k` | Kubernetes cluster browser (kubectl.nvim), `g?` inside it for help |
 | `<leader>u` | Toggles: format on save, inlay hints, code lens, diagnostics, wrap, markdown |
 | `<leader>pl` `pu` `pm` `ph` | Plugin status, update plugins, Mason, toolchain health |
 

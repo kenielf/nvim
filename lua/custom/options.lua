@@ -101,9 +101,27 @@ local function yaml_or_ansible(_, buf)
     return "yaml"
 end
 
+-- Helm charts: templates and values files of a directory with a Chart.yaml
+local function chart_root(path, marker)
+    local root = path:match("(.*)/" .. marker)
+    return root and vim.uv.fs_stat(root .. "/Chart.yaml") ~= nil
+end
+
 -- Filetypes Neovim doesn't detect on its own
 vim.filetype.add({
     pattern = {
+        [".*/templates/.*%.ya?ml"] = function(path)
+            if chart_root(path, "templates/") then return "helm" end
+        end,
+        [".*/templates/.*%.tpl"] = function(path)
+            if chart_root(path, "templates/") then return "helm" end
+        end,
+        [".*/templates/NOTES%.txt"] = function(path)
+            if chart_root(path, "templates/") then return "helm" end
+        end,
+        [".*/values[%w%-_.]*%.ya?ml"] = function(path)
+            if chart_root(path, "values[^/]*$") then return "yaml.helm-values" end
+        end,
         [".*/roles/[^/]+/tasks/.*%.ya?ml"] = "yaml.ansible",
         [".*/roles/[^/]+/handlers/.*%.ya?ml"] = "yaml.ansible",
         [".*/playbooks/.*%.ya?ml"] = "yaml.ansible",

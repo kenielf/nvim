@@ -109,6 +109,14 @@ return {
         parsers = { "jinja", "jinja_inline" },
     },
     {
+        -- Plain manifests are validated by yamlls, see after/lsp/yamlls.lua
+        name = "Helm",
+        requires = { "helm" },
+        servers = { "helm_ls" },
+        tools = { "helm-ls" },
+        parsers = { "helm" },
+    },
+    {
         name = "Shaders",
         servers = { "glsl_analyzer", "wgsl_analyzer", "slangd" },
         tools = { "glsl_analyzer", "wgsl-analyzer", "slang", "clang-format" },
