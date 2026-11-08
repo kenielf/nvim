@@ -102,6 +102,10 @@ Format on save is off by default. Toggle it with `<leader>uf`, or set `vim.g.for
 
 Set `NVIM_NO_DISCORD=1` to keep a session off Discord Rich Presence.
 
+Remote files open over SSH with `nvim scp://host//absolute/path` (one slash for a path relative to the remote home), and `:w` writes them back. It uses `scp` with your SSH config and keys, so set up key-based login first.
+
+The statusline shows the current Kubernetes context and namespace, in red when the context matches `vim.g.kube_danger_pattern` (a Lua pattern, `"prod"` by default).
+
 ## Layout
 ```
 init.lua
@@ -114,6 +118,7 @@ lua/custom/
   lsp.lua           Diagnostics, LspAttach keymaps and native LSP features
   debug.lua         Debug adapters
   silicon.lua       Screenshots and the font search
+  kube.lua          Kubernetes context for the statusline
   health.lua        :checkhealth custom
   plugins/          Plugin specs by area
 snippets/           Personal snippets, in VS Code format

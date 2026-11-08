@@ -9,9 +9,9 @@ vim.g.maplocalleader = "\\"
 -- Format on save stays opt-in so opening someone else's project doesn't rewrite it. F3 always formats.
 vim.g.format_on_save = false
 
--- Skip the builtin plugins this config replaces
+-- Skip the builtin plugins this config replaces. netrw stays for editing remote files
+-- (scp://, sftp://), snacks takes over its directory browsing.
 for _, plugin in ipairs({
-    "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers",
     "gzip", "tar", "tarPlugin", "zip", "zipPlugin",
     "2html_plugin", "tohtml", "tutor", "getscript", "getscriptPlugin",
     "vimball", "vimballPlugin", "rrhelper",

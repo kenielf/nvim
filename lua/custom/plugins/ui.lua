@@ -211,6 +211,7 @@ return {
             local function has_breadcrumbs()
                 return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
             end
+            local kube = require("custom.kube")
 
             require("lualine").setup({
                 options = {
@@ -227,6 +228,16 @@ return {
                         { breadcrumbs, cond = has_breadcrumbs },
                     },
                     lualine_x = {
+                        {
+                            kube.status,
+                            cond = kube.available,
+                            color = function()
+                                if kube.is_dangerous() then
+                                    local error = vim.api.nvim_get_hl(0, { name = "DiagnosticError", link = false })
+                                    return { fg = error.fg and ("#%06x"):format(error.fg), gui = "bold" }
+                                end
+                            end,
+                        },
                         { vim.ui.progress_status },
                         "searchcount",
                         "encoding",
