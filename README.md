@@ -60,7 +60,7 @@ Everything is declared in [`lua/custom/languages.lua`](lua/custom/languages.lua)
 
 Debug projects can also use `.vscode/launch.json`, nvim-dap reads it automatically.
 
-Tests run through neotest with pytest, CTest (GoogleTest, Catch2, doctest), `dotnet test`, JUnit (through jdtls, `:NeotestJava setup` downloads the JUnit runner once), Vitest and Jest. Python projects need a `pyproject.toml`, `setup.py` or `pytest.ini` to be recognized, C++ projects a CMake build directory.
+Tests run through neotest with pytest, CTest (GoogleTest, Catch2, doctest), `dotnet test`, JUnit (through jdtls, the JUnit console launcher is installed with the other tools), Vitest and Jest. Python projects need a `pyproject.toml`, `setup.py` or `pytest.ini` to be recognized, C++ projects a CMake build directory.
 
 Ansible files are recognized inside `roles/*/tasks`, `roles/*/handlers` and `playbooks/`, and anywhere else when the file starts with a play (`- hosts:` or `- import_playbook:`). If one is missed, add `# vim: ft=yaml.ansible` to it.
 

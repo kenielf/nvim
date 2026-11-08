@@ -102,6 +102,17 @@ function M.check()
         end
     end
 
+    health.start("Tests")
+    if has("java") then
+        local jar = require("custom.tools").junit_jar()
+        if vim.uv.fs_stat(jar.path) then
+            health.ok("JUnit console launcher " .. jar.version .. " installed")
+        else
+            health.warn("JUnit console launcher missing, neotest-java needs it to run Java tests",
+                has("curl") and "Run :ToolsInstall" or "Install `curl`, then run :ToolsInstall")
+        end
+    end
+
     health.start("Screenshots")
     local silicon = require("custom.silicon")
     if not silicon.is_installed() then

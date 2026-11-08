@@ -25,6 +25,15 @@ end
 -- sees the system Python's packages, where Ansible and its collections are installed
 M.ansibug_python = vim.fn.stdpath("data") .. "/ansibug/bin/python"
 
+-- neotest-java runs tests with JUnit's console launcher, the version it pins and checks
+---@return { version: string, sha256: string, path: string }
+function M.junit_jar()
+    require("custom.pack").load("neotest-java")
+    local defaults = require("neotest-java.default_config")
+    local pinned = defaults.default_junit_jar_version
+    return { version = pinned.version, sha256 = pinned.sha256, path = defaults.default_junit_jar_filepath:to_string() }
+end
+
 ---@return string[] packages, string[] parsers, table<string, string> skipped package -> reason
 local function wanted()
     local packages, parsers, skipped = {}, {}, {}
@@ -54,6 +63,7 @@ local function fingerprint()
         table.insert(parts, bin .. "=" .. tostring(has(bin)))
     end
     table.insert(parts, "ansibug=" .. tostring(has("ansible") and has("uv") and vim.uv.fs_stat(M.ansibug_python) ~= nil))
+    table.insert(parts, "junit=" .. tostring(has("java") and vim.uv.fs_stat(M.junit_jar().path) ~= nil))
     table.sort(parts)
     return vim.fn.sha256(table.concat(parts, ","))
 end
@@ -135,6 +145,30 @@ local function install_ansibug(failures, done)
         end))
 end
 
+-- Same download and checksum as :NeotestJava setup, without its prompt
+---@param failures string[]
+local function install_junit(failures, done)
+    local jar = M.junit_jar()
+    if not (has("java") and has("curl")) or vim.uv.fs_stat(jar.path) then
+        return done()
+    end
+    local url = ("https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/%s/%s")
+        :format(jar.version, vim.fs.basename(jar.path))
+    local partial = jar.path .. ".part"
+    vim.fn.mkdir(vim.fs.dirname(jar.path), "p")
+    vim.system({ "curl", "-fsSL", "-o", partial, url }, {}, vim.schedule_wrap(function(result)
+        local sha = result.code == 0 and require("neotest-java.util.checksum").sha256(partial)
+        if sha == jar.sha256 then
+            vim.uv.fs_rename(partial, jar.path)
+        else
+            table.insert(failures, "JUnit console launcher: "
+                .. (result.code ~= 0 and vim.trim(result.stderr or "") or "checksum mismatch"))
+            vim.fn.delete(partial)
+        end
+        done()
+    end))
+end
+
 ---@param force boolean? Check everything even if nothing appears to have changed
 function M.ensure(force)
     if not force and read_stamp() == fingerprint() then
@@ -172,13 +206,15 @@ function M.ensure(force)
 
         local function finish()
             install_ansibug(failures, function()
-                install_parsers(parsers, function(parsers_ok)
-                    if #failures > 0 then
-                        vim.notify("Failed to install:\n" .. table.concat(failures, "\n"), vim.log.levels.ERROR)
-                    elseif parsers_ok then
-                        write_stamp()
-                    end
-                    vim.api.nvim_exec_autocmds("User", { pattern = "CustomToolsDone", modeline = false })
+                install_junit(failures, function()
+                    install_parsers(parsers, function(parsers_ok)
+                        if #failures > 0 then
+                            vim.notify("Failed to install:\n" .. table.concat(failures, "\n"), vim.log.levels.ERROR)
+                        elseif parsers_ok then
+                            write_stamp()
+                        end
+                        vim.api.nvim_exec_autocmds("User", { pattern = "CustomToolsDone", modeline = false })
+                    end)
                 end)
             end)
         end
