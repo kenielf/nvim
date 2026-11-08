@@ -176,6 +176,11 @@ function M.check_images()
     else
         health.info("`gs` not found, PDFs can't be previewed (install Ghostscript)")
     end
+    if has("pdfinfo") then
+        health.ok("`pdfinfo` found, PDFs can be paged and reload when rebuilt")
+    else
+        health.info("`pdfinfo` not found, PDFs only show their first page (install poppler)")
+    end
     if has("ffmpeg") then
         health.ok("`ffmpeg` found, videos show a single frame (playback isn't possible in a terminal)")
     else

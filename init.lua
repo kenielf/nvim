@@ -21,3 +21,4 @@ require("custom.pack").setup({
 require("custom.silicon").setup()
 require("custom.tools").setup()
 require("custom.direnv").setup()
+require("custom.pdf").setup()

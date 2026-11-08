@@ -17,6 +17,8 @@ Needed for installing tools: `git`, `curl`, `tar`, `unzip`, `gzip` and a C compi
 
 Recommended: `ripgrep`, `fd` and `imagemagick` (image previews, in kitty, WezTerm or Ghostty; inside tmux 3.3+ too). Images open as pictures, and images referenced in Markdown show in a float while the cursor is on them.
 
+Opened PDFs can be paged with `]p` and `[p` (with a count), `gg` and `G` (or `[count]gg` for a page). They reload on their own when the file is rebuilt, which keeps the current page, so a PDF being generated can stay open next to its source. Paging needs `pdfinfo` (poppler).
+
 Each language's tools are only installed once its toolchain exists. Installing the toolchain later is enough, the tools follow on the next start.
 
 | Language | Needs | Optional |
@@ -127,6 +129,7 @@ lua/custom/
   silicon.lua       Screenshots and the font search
   kube.lua          Kubernetes context for the statusline
   direnv.lua        Loads the working directory's .envrc
+  pdf.lua           PDF paging and reload on rebuild
   health.lua        :checkhealth custom
   plugins/          Plugin specs by area
 snippets/           Personal snippets, in VS Code format
