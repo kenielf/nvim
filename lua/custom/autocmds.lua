@@ -78,6 +78,16 @@ autocmd("VimResized", {
     callback = function() vim.cmd.tabdo("wincmd =") end,
 })
 
+autocmd({ "FocusGained", "BufEnter", "TermLeave" }, {
+    desc = "Reload buffers changed outside Neovim",
+    callback = function()
+        -- :checktime isn't allowed from the command-line window
+        if vim.fn.getcmdwintype() == "" then
+            vim.cmd.checktime()
+        end
+    end,
+})
+
 autocmd("BufWritePre", {
     desc = "Create missing parent directories",
     callback = function(ev)
