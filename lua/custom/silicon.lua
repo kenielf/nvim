@@ -3,9 +3,8 @@
 local M = {}
 
 local state_file = vim.fn.stdpath("state") .. "/silicon.json"
-local default_font = "IosevkaTerm Nerd Font Mono"
 local font_size = 24
--- Tried in order for glyphs the main font lacks
+local main_fonts = { "IosevkaTerm Nerd Font Mono", "Iosevka Nerd Font" }
 local fallback_fonts = { "Noto Color Emoji", "Noto Serif CJK JP" }
 
 function M.is_installed()
@@ -25,25 +24,78 @@ local function ensure_installed()
     return false
 end
 
-function M.current_font()
+function M.picked_font()
     local ok, state = pcall(function()
         return vim.json.decode(table.concat(vim.fn.readfile(state_file), "\n"))
     end)
-    return ok and state.font or default_font
+    return ok and type(state) == "table" and state.font or nil
 end
 
-local function font_option(font)
-    local stack = { font .. "=" .. font_size }
-    for _, fallback in ipairs(fallback_fonts) do
-        if fallback ~= font then
-            table.insert(stack, fallback .. "=" .. font_size)
+local installed_cache
+local function installed_fonts()
+    if not installed_cache then
+        local result = vim.system({ "silicon", "--list-fonts" }, { text = true }):wait()
+        if result.code ~= 0 then
+            return {}
+        end
+        installed_cache = {}
+        for family in vim.gsplit(result.stdout, "\n", { trimempty = true }) do
+            installed_cache[family] = true
         end
     end
-    return table.concat(stack, ";")
+    return installed_cache
+end
+
+-- The installed main and fallback fonts, in order. silicon only logs a missing font and
+-- still exits 0, so anything not installed has to be left out here.
+function M.font_stack()
+    local installed = installed_fonts()
+    local main_candidates = vim.list_extend({ M.picked_font() }, main_fonts)
+    local stack, seen = { main = {}, fallback = {}, missing = {} }, {}
+    local function add(list, candidates)
+        for _, font in ipairs(candidates) do
+            if not seen[font] then
+                seen[font] = true
+                table.insert(installed[font] and list or stack.missing, font)
+            end
+        end
+    end
+    add(stack.main, main_candidates)
+    add(stack.fallback, fallback_fonts)
+    return stack
+end
+
+-- The --font value, or nil and an error when none of the main fonts are installed
+local function font_option()
+    local stack = M.font_stack()
+    if #stack.main == 0 then
+        local tried = vim.list_extend({ M.picked_font() }, main_fonts)
+        return nil, "None of the screenshot fonts are installed: "
+            .. table.concat(tried, ", ") .. ".\nPick one with :SiliconFont."
+    end
+    local fonts = {}
+    for _, font in ipairs(vim.list_extend(vim.list_extend({}, stack.main), stack.fallback)) do
+        table.insert(fonts, font .. "=" .. font_size)
+    end
+    return table.concat(fonts, ";")
+end
+
+-- Loads the plugin and points it at the current font stack, false when there is none
+local function prepare()
+    if not ensure_installed() then
+        return false
+    end
+    local font, err = font_option()
+    if not font then
+        vim.notify(err, vim.log.levels.ERROR, { title = "Silicon" })
+        return false
+    end
+    M.plugin().options.font = font
+    return true
 end
 
 local function user_command(args)
-    if ensure_installed() then
+    if prepare() then
         M.plugin().usercmd(args)
     end
 end
@@ -65,7 +117,6 @@ function M.plugin()
         silicon_plugin = require("nvim-silicon")
         local palette = require("catppuccin.palettes").get_palette("mocha")
         silicon_plugin.setup({
-            font = font_option(M.current_font()),
             theme = "Catppuccin Mocha",
             background = palette.base,
             pad_horiz = 40,
@@ -84,7 +135,7 @@ function M.plugin()
 end
 
 function M.shoot()
-    if ensure_installed() then
+    if prepare() then
         M.plugin().shoot()
     end
 end
@@ -92,9 +143,6 @@ end
 function M.set_font(font)
     vim.fn.mkdir(vim.fn.fnamemodify(state_file, ":h"), "p")
     vim.fn.writefile({ vim.json.encode({ font = font }) }, state_file)
-    if plugin_ready then
-        M.plugin().options.font = font_option(font)
-    end
     vim.notify("Screenshot font: " .. font, vim.log.levels.INFO, { title = "Silicon" })
 end
 
@@ -175,13 +223,17 @@ function M.pick_font()
         return
     end
 
-    local current = M.current_font()
+    local stack = M.font_stack()
+    local current = {}
+    for _, font in ipairs(vim.list_extend(stack.main, stack.fallback)) do
+        current[font] = true
+    end
     local items = {}
     for _, font in ipairs(fonts) do
         table.insert(items, {
             text = font.name,
             font = font,
-            current = font.name == current,
+            current = current[font.name] or false,
         })
     end
 

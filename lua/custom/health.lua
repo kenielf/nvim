@@ -129,12 +129,17 @@ function M.check()
         return
     end
     health.ok("`silicon` found: " .. vim.fn.exepath("silicon"))
-    local fonts = silicon.list_fonts() or {}
-    local current = silicon.current_font()
-    if vim.iter(fonts):any(function(font) return font.name == current end) then
-        health.ok(("Font `%s` is installed (%d fonts available)"):format(current, #fonts))
+    local stack = silicon.font_stack()
+    if #stack.main > 0 then
+        health.ok("Fonts: " .. table.concat(stack.main, ", "))
     else
-        health.warn(("Font `%s` isn't installed"):format(current), "Pick another with :SiliconFont")
+        health.error("None of the screenshot fonts are installed", "Pick one with :SiliconFont")
+    end
+    if #stack.fallback > 0 then
+        health.ok("Fallback fonts: " .. table.concat(stack.fallback, ", "))
+    end
+    if #stack.missing > 0 then
+        health.info("Not installed, skipped: " .. table.concat(stack.missing, ", "))
     end
     if os.getenv("WAYLAND_DISPLAY") and not has("wl-copy") then
         health.warn("`wl-copy` not found, screenshots can't reach the clipboard")
